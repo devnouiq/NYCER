@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
+import type { WithAuthenticatorProps } from '@aws-amplify/ui-react';
 
-export const NavBar = () => {
+
+export const NavBar = ({signOut}:WithAuthenticatorProps) => {
+  
   return (
     <nav className="bg-transparent p-4 flex items-center justify-between">
       <div className="flex items-center">
@@ -14,15 +17,15 @@ export const NavBar = () => {
       </div>
 
       <div className="flex space-x-4">
-        <button
+        {/* <button
           onClick={handleSignIn}
           className="bg-[#AF7153] text-white font-bold px-4 py-2 rounded">
           Sign In
-        </button>
+        </button> */}
         <button
-          onClick={handleSignUp}
+          onClick={signOut}
           className="bg-[#AF7153] text-white font-bold px-4 py-2 rounded">
-          Sign Up
+          Sign out
         </button>
       </div>
     </nav>

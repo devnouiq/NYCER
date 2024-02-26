@@ -24,9 +24,9 @@ export const SearchField = () => {
         console.error(error);
       });
   }
-
+  // className="bg-transparent"
   return (
-    <div className="bg-transparent">
+    <div>
       <div className="flex flex-grow max-w-[600px] relative">
         <button
           onClick={() => handleSearch(val)}
