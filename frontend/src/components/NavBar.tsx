@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import type { WithAuthenticatorProps } from '@aws-amplify/ui-react';
+import type { WithAuthenticatorProps } from "@aws-amplify/ui-react";
+// import Components from './SignIn'
 
+export const NavBar = ({ onLogin, user }) => {
+  console.log(user);
 
-export const NavBar = ({signOut}:WithAuthenticatorProps) => {
-  
   return (
     <nav className="bg-transparent p-4 flex items-center justify-between">
       <div className="flex items-center">
@@ -17,16 +18,27 @@ export const NavBar = ({signOut}:WithAuthenticatorProps) => {
       </div>
 
       <div className="flex space-x-4">
-        {/* <button
-          onClick={handleSignIn}
-          className="bg-[#AF7153] text-white font-bold px-4 py-2 rounded">
-          Sign In
-        </button> */}
-        <button
-          onClick={signOut}
-          className="bg-[#AF7153] text-white font-bold px-4 py-2 rounded">
-          Sign out
-        </button>
+        {!user && (
+          <button
+            onClick={() => {
+              onLogin(true);
+            }}
+            className="bg-[#AF7153] text-white font-bold px-4 py-2 rounded"
+          >
+            Sign In
+          </button>
+        )}
+        {user && (
+          <>
+            <h4 className="text-white">{user.signInDetails.loginId}</h4>
+            <button
+              onClick={onLogin}
+              className="bg-[#AF7153] text-white font-bold px-4 py-2 rounded"
+            >
+              Sign out
+            </button>
+          </>
+        )}
       </div>
     </nav>
   );

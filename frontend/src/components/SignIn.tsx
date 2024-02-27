@@ -1,80 +1,172 @@
-import React, { useState } from 'react';
+import { Authenticator, Button, Heading, Image, Text, useAuthenticator, useTheme, View } from "@aws-amplify/ui-react";
+import { useState } from "react";
 
-interface SignInState {
-  username: string;
-  password: string;
-  errorMessage: string;
-}
-
-const SignIn: React.FC = () => {
-  const [signInState, setSignInState] = useState<SignInState>({
-    username: '',
-    password: '',
-    errorMessage: ''
-  });
-
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    const { name, value } = event.target;
-    setSignInState(prevState => ({
-      ...prevState,
-      [name]: value
-    }));
-  };
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
-    event.preventDefault();
-
-    // Basic input validation
-    if (!signInState.username || !signInState.password) {
-      setSignInState(prevState => ({
-        ...prevState,
-        errorMessage: 'Please enter both username and password.'
-      }));
-      return;
+export const Components = {
+    Header() {
+      const { tokens } = useTheme();
+  
+      return (
+        <View textAlign="center" padding={tokens.space.large}>
+          <Image
+            alt="Amplify logo"
+            src="https://docs.amplify.aws/assets/logo-dark.svg"
+          />
+        </View>
+      );
+    },
+  
+    Footer() {
+      const { tokens } = useTheme();
+  
+      return (
+        <View textAlign="center" padding={tokens.space.large}>
+          <Text color={tokens.colors.neutral[80]}>
+            &copy; All Rights Reserved
+          </Text>
+        </View>
+      );
+    },
+  
+    SignIn: {
+      Header() {
+        const { tokens } = useTheme();
+  
+        return (
+          <Heading
+            padding={`${tokens.space.xl} 0 0 ${tokens.space.xl}`}
+            level={3}
+          >
+            Sign in to your account
+          </Heading>
+        );
+      },
+    //   Footer() {
+    //     const { toResetPassword } = useAuthenticator();
+  
+    //     return (
+    //       <View textAlign="center">
+    //         <Button
+    //           fontWeight="normal"
+    //           onClick={toResetPassword}
+    //           size="small"
+    //           variation="link"
+    //         >
+    //           Reset Password
+    //         </Button>
+    //       </View>
+    //     );
+    //   },
+    // },
+  
+    SignUp: {
+      Header() {
+        const { tokens } = useTheme();
+  
+        return (
+          <Heading
+            padding={`${tokens.space.xl} 0 0 ${tokens.space.xl}`}
+            level={3}
+          >
+            Create a new account
+          </Heading>
+        );
+      },
+      Footer() {
+        const { toSignIn } = useAuthenticator();
+  
+        return (
+          <View textAlign="center">
+            <Button
+              fontWeight="normal"
+              onClick={toSignIn}
+              size="small"
+              variation="link"
+            >
+              Back to Sign In
+            </Button>
+          </View>
+        );
+      },
+    },
+    ConfirmSignUp: {
+      Header() {
+        const { tokens } = useTheme();
+        return (
+          <Heading
+            padding={`${tokens.space.xl} 0 0 ${tokens.space.xl}`}
+            level={3}
+          >
+            Enter Information:
+          </Heading>
+        );
+      },
     }
-
-    // Clear error message if inputs are valid
-    setSignInState(prevState => ({
-      ...prevState,
-      errorMessage: ''
-    }));
-
-    // Here you can proceed with the authentication logic
-    // For example, you can use AWS Amplify Auth.signIn method
-    // or any other authentication service.
-    console.log('Username:', signInState.username);
-    console.log('Password:', signInState.password);
+    //   Footer() {
+    //     return <Text>Footer Information</Text>;
+    //   },
+    // },
+    // SetupTOTP: {
+    //   Header() {
+    //     const { tokens } = useTheme();
+    //     return (
+    //       <Heading
+    //         padding={`${tokens.space.xl} 0 0 ${tokens.space.xl}`}
+    //         level={3}
+    //       >
+    //         Enter Information:
+    //       </Heading>
+    //     );
+    //   },
+    //   Footer() {
+    //     return <Text>Footer Information</Text>;
+    //   },
+    // },
+    // ConfirmSignIn: {
+    //   Header() {
+    //     const { tokens } = useTheme();
+    //     return (
+    //       <Heading
+    //         padding={`${tokens.space.xl} 0 0 ${tokens.space.xl}`}
+    //         level={3}
+    //       >
+    //         Enter Information:
+    //       </Heading>
+    //     );
+    //   },
+    //   Footer() {
+    //     return <Text>Footer Information</Text>;
+    //   },
+    // },
+    // ResetPassword: {
+    //   Header() {
+    //     const { tokens } = useTheme();
+    //     return (
+    //       <Heading
+    //         padding={`${tokens.space.xl} 0 0 ${tokens.space.xl}`}
+    //         level={3}
+    //       >
+    //         Enter Information:
+    //       </Heading>
+    //     );
+    //   },
+    //   Footer() {
+    //     return <Text>Footer Information</Text>;
+    //   },
+    // },
+    // ConfirmResetPassword: {
+    //   Header() {
+    //     const { tokens } = useTheme();
+    //     return (
+    //       <Heading
+    //         padding={`${tokens.space.xl} 0 0 ${tokens.space.xl}`}
+    //         level={3}
+    //       >
+    //         Enter Information:
+    //       </Heading>
+    //     );
+    //   },
+    //   Footer() {
+    //     return <Text>Footer Information</Text>;
+    //   },
+    },
   };
-
-  return (
-    <div>
-      <h2>Sign In</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="username">Username:</label>
-          <input 
-            type="text" 
-            id="username" 
-            name="username" 
-            value={signInState.username} 
-            onChange={handleInputChange} 
-          />
-        </div>
-        <div>
-          <label htmlFor="password">Password:</label>
-          <input 
-            type="password" 
-            id="password" 
-            name="password" 
-            value={signInState.password} 
-            onChange={handleInputChange} 
-          />
-        </div>
-        {signInState.errorMessage && <div>{signInState.errorMessage}</div>}
-        <button type="submit">Sign In</button>
-      </form>
-    </div>
-  );
-};
-
-export default SignIn;
