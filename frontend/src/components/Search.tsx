@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { Search, Mic } from "lucide-react";
+import { Search } from "lucide-react";
 import { ProductType } from "../types/productType";
 import axios from "axios";
-import { TileView, ProductView } from "./TileView";
+import { TileView } from "./TileView";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 

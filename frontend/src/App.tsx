@@ -8,7 +8,6 @@ import { VIPPage } from "./components/VIPPage";
 import { InfoCard, InfoCardProps } from "./components/InfoCard";
 import "./App.css";
 import { PageFooter } from "./components/PageFooter";
-import { Product } from "./components/Product";
 
 function App() {
   const howtouseProps: InfoCardProps = {

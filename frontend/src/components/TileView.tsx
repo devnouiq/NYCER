@@ -1,7 +1,6 @@
 import React from "react";
 import product_img from "../assets/how_to_use.png";
 import { useNavigate } from "react-router-dom";
-import { Product } from "./Product";
 
 type IngredientsType = {
   ingredient_name?: string;
@@ -17,12 +16,7 @@ export type ProductView = {
   benefits: string[];
 };
 
-export const TileView: React.FC<ProductView> = ({
-  product_id,
-  product_name,
-  ingredients,
-  benefits,
-}) => {
+export const TileView: React.FC<ProductView> = ({ product_name }) => {
   function handleNavigation() {
     console.log("Navigating to details...");
     useNavigate();
