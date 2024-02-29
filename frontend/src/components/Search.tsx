@@ -2,10 +2,34 @@ import { useState } from "react";
 import { Search, Mic } from "lucide-react";
 import { ProductType } from "../types/productType";
 import axios from "axios";
+import { TileView, ProductView } from "./TileView";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
-export const SearchField = () => {
+export const SearchField = (props: { placeholder: string }) => {
+  // const productTileView: ProductView = {
+  //   product_name: "Hello world",
+  //   ingredients: [
+  //     {
+  //       ingredient_name: "Sample Ingredient 1",
+  //       what_it_does: "This is a sample ingredient that does something.",
+  //       community_rating: "4.5",
+  //       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+  //     },
+  //     {
+  //       ingredient_name: "Sample Ingredient 2",
+  //       what_it_does: "Another sample ingredient with a different function.",
+  //       community_rating: "3.8",
+  //       description:
+  //         "Ut enim ad minim veniam, quis nostrud exercitation ullamco.",
+  //     },
+  //   ],
+  //   benefits: [
+  //     "Sample Benefit 1: Provides hydration to the skin",
+  //     "Sample Benefit 2: Reduces the appearance of wrinkles",
+  //   ],
+  // };
+
   const [searchProduct, setSearchProduct] = useState([]);
   const [val, setVal] = useState("");
 
@@ -35,27 +59,25 @@ export const SearchField = () => {
         </button>
         <input
           type="search"
-          placeholder="*solutions to skincare problems"
-          className="rounded-full border-secondary-border border-4 border-solid w-[390px] py-4 px-6 bg-transparent text-white placeholder-white placeholder-opacity-100 font-bold pl-12 focus:border-white outline-none"
+          placeholder={props.placeholder}
+          className="rounded-full border-secondary-border border-4 border-solid w-[390px] py-4 px-6 bg-transparent text-white placeholder-white placeholder-opacity-100 font-bold pl-12 focus:border-white outline-none left-0 right-0"
           onChange={(e) => {
             setVal(e.target.value);
           }}
         />
-        <button className="text-white absolute right-0 top-0 bottom-0 m-auto px-4">
-          <Mic />
-        </button>
       </div>
 
-      {searchProduct && (
-        <div className="mt-4 font-bold text-white">
-          <h3>Search Results:</h3>
-          {searchProduct.map((product: ProductType, index) => (
-            <div key={index} className="mt-2">
-              <p>Brand Name: {product.brand_name}</p>
-              <p>Product Name: {product.product_name}</p>
-              <p>Product Type: {product.product_type}</p>
+      {searchProduct.length > 0 ? (
+        <div className="flex item-center justify-center mt-4 font-bold text-white">
+          {searchProduct.map((product: ProductType) => (
+            <div key={product._id} className="mt-2 px-2">
+              <TileView product_id={""} {...product} />
             </div>
           ))}
+        </div>
+      ) : (
+        <div className="pt-24 text-center text-2xl text-white font-semibold">
+          N Y C E R S E A R C H T O O L
         </div>
       )}
     </div>

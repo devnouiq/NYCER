@@ -2,7 +2,6 @@ import express, { Express, Request, Response } from "express";
 import { USER, UserType, ProductType, PRODUCT } from "../db/db"
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
-import cors from "cors"
 dotenv.config();
 
 const SECRET_KEY: string = process.env.ACCESS_TOKEN_SECRET || '';
@@ -81,5 +80,23 @@ router.get("/search", async (req: Request, res: Response) => {
         res.status(500).json({ message: "Internal server error" });
     }
 })
+
+
+router.get("/search/:searchid", async (req: Request, res: Response) => {
+    try {
+        const singleProductId: string = req.params.searchid;
+        const singleProduct: string = await PRODUCT.findById(singleProductId) || "";
+        console.log(singleProductId)
+        if(singleProduct){
+            res.json({singleProduct});
+        } else {
+            res.status(404).json({message: "Product not found"});
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({message: "Internal Server Error"});
+    }
+});
+
 
 export default router;

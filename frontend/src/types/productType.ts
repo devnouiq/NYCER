@@ -3,7 +3,9 @@ type ProductInfoType = {
     status: string
 }
 
-type IngredientsType = {
+export type IngredientsType = {
+    isExpanded: boolean;
+    _id: number;
     ingredient_name?: string,
     what_it_does?: string,
     community_rating?: string,
@@ -11,6 +13,7 @@ type IngredientsType = {
 }
 
 export type ProductType = {
+    _id: number;
     brand_name: string;
     product_name: string;
     product_type: string;
