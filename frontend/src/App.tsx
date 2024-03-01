@@ -36,7 +36,6 @@ function App() {
 
   return (
     <div>
-      {/* <Product /> */}
       <div className="px-4 py-4 min-h-screen input_wrapper bg-[url('./assets/1.png')] bg-cover bg-center">
         <PageHeader />
         <div className="flex items-center justify-center min-h-[40vh] md:min-h-[60vh] w-full mt-12 md:mt-20">
@@ -46,6 +45,7 @@ function App() {
           Skincare At A Deeper Level
         </div>
       </div>
+
       <SloganPage
         bg_color="#AF7153"
         line1="YOU DESRVE THE"
