@@ -102,8 +102,7 @@ function App() {
   return (
     <Account>
       <div id="parent-container" onClick={closeOvarlayHandler}>
-        {/* <Product /> */}
-        {/* <button>signOut</button> */}
+          {/* <button>signOut</button> */}
 
         <div className="px-4 py-4 min-h-screen input_wrapper bg-[url('./assets/1.png')] bg-cover bg-center">
           <PageHeader
@@ -117,6 +116,7 @@ function App() {
             Skincare At A Deeper Level
           </div>
         </div>
+
         <SloganPage
           bg_color="#AF7153"
           line1="YOU DESRVE THE"

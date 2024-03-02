@@ -1,37 +1,21 @@
 import { useState } from "react";
-import { Search, Mic } from "lucide-react";
+import { Search } from "lucide-react";
 import { ProductType } from "../types/productType";
 import axios from "axios";
-import { TileView, ProductView } from "./TileView";
+import { TileView } from "./TileView";
+import { Product } from "./Product";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 export const SearchField = (props: { placeholder: string }) => {
-  // const productTileView: ProductView = {
-  //   product_name: "Hello world",
-  //   ingredients: [
-  //     {
-  //       ingredient_name: "Sample Ingredient 1",
-  //       what_it_does: "This is a sample ingredient that does something.",
-  //       community_rating: "4.5",
-  //       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-  //     },
-  //     {
-  //       ingredient_name: "Sample Ingredient 2",
-  //       what_it_does: "Another sample ingredient with a different function.",
-  //       community_rating: "3.8",
-  //       description:
-  //         "Ut enim ad minim veniam, quis nostrud exercitation ullamco.",
-  //     },
-  //   ],
-  //   benefits: [
-  //     "Sample Benefit 1: Provides hydration to the skin",
-  //     "Sample Benefit 2: Reduces the appearance of wrinkles",
-  //   ],
-  // };
-
   const [searchProduct, setSearchProduct] = useState([]);
   const [val, setVal] = useState("");
+  const [displayedProducts, setDisplayedProducts] = useState(3);
+  const [showModal, setShowModal] = useState<number | null>(null);
+
+  function handleLoadMore() {
+    setDisplayedProducts(displayedProducts + 3);
+  }
 
   function handleSearch(val: string) {
     const keyword = val;
@@ -51,7 +35,7 @@ export const SearchField = (props: { placeholder: string }) => {
 
   return (
     <div className="bg-transparent">
-      <div className="flex flex-grow max-w-[600px] relative">
+      <div className="flex flex-grow max-w-[600px] relative mx-auto">
         <button
           onClick={() => handleSearch(val)}
           className="text-white absolute left-0 top-0 bottom-0 m-auto px-4">
@@ -60,7 +44,7 @@ export const SearchField = (props: { placeholder: string }) => {
         <input
           type="search"
           placeholder={props.placeholder}
-          className="rounded-full border-secondary-border border-4 border-solid w-[390px] py-4 px-6 bg-transparent text-white placeholder-white placeholder-opacity-100 font-bold pl-12 focus:border-white outline-none left-0 right-0"
+          className="rounded-full border-secondary-border border-4 border-solid w-full md:w-[390px] py-4 px-6 bg-transparent text-white placeholder-white placeholder-opacity-100 font-bold pl-12 focus:border-white outline-none"
           onChange={(e) => {
             setVal(e.target.value);
           }}
@@ -68,17 +52,42 @@ export const SearchField = (props: { placeholder: string }) => {
       </div>
 
       {searchProduct.length > 0 ? (
-        <div className="flex item-center justify-center mt-4 font-bold text-white">
-          {searchProduct.map((product: ProductType) => (
-            <div key={product._id} className="mt-2 px-2">
-              <TileView product_id={""} {...product} />
+        <div className="flex flex-wrap items-center justify-center mt-4 font-bold text-white">
+          {searchProduct
+            .slice(0, displayedProducts)
+            .map((product: ProductType) => (
+              <div
+                key={product._id}
+                className="mt-2 px-2 w-full sm:w-1/2 md:w-1/3 transition-opacity duration-500 ease-in-out opacity-100">
+                <TileView
+                  product_id={product._id}
+                  setShowModal={setShowModal}
+                  {...product}
+                />
+              </div>
+            ))}
+
+          {searchProduct.length > displayedProducts && (
+            <div className="w-full text-center mt-4 transition-opacity duration-500 ease-in-out opacity-100">
+              <button
+                onClick={handleLoadMore}
+                className="bg-black text-white p-2 rounded-xl hover:bg-black focus:outline-none focus:ring focus:border-white">
+                Load More
+              </button>
             </div>
-          ))}
+          )}
         </div>
       ) : (
-        <div className="pt-24 text-center text-2xl text-white font-semibold">
+        <div className="pt-8 text-center text-2xl text-white font-semibold">
           N Y C E R S E A R C H T O O L
         </div>
+      )}
+      {showModal !== null && (
+        <Product
+          visible={true}
+          setShowModal={setShowModal}
+          product_id={showModal}
+        />
       )}
     </div>
   );

@@ -5,22 +5,34 @@ import product_img from "../assets/how_to_use.png";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
-export const Product: React.FC = () => {
+interface ModalType {
+  visible: boolean;
+  setShowModal: (productId: number | null) => void;
+  product_id: number;
+}
+
+export const Product: React.FC<ModalType> = ({
+  visible,
+  setShowModal,
+  product_id,
+}) => {
+  if (!visible) return null;
+
+  const handleCancel = () => {
+    setShowModal(null);
+  };
+
   const [productDetails, setProductDetails] = useState<ProductType | null>(
     null
   );
-
   useEffect(() => {
     loadAllData();
   }, []);
 
   const loadAllData = async () => {
     try {
-      const response = await axios.get(
-        `${BASE_URL}/user/search/65d8303ab399475d151ebda3`
-      );
+      const response = await axios.get(`${BASE_URL}/user/search/${product_id}`);
       setProductDetails(response.data.singleProduct);
-      console.log(response.data.singleProduct);
     } catch (error) {
       console.error(error);
     }
@@ -63,7 +75,11 @@ export const Product: React.FC = () => {
   };
 
   return (
-    <div className="bg-[#AF7153] p-4 md:p-8">
+    <div className="bg-[#AF7153] p-4 md:p-8 mt-20 fixed inset-2 overflow-y-auto max-h-[80vh] max-w-[60vw] mx-auto rounded-lg shadow-lg">
+      <button onClick={handleCancel} className="text-white underline mb-4">
+        Cancel
+      </button>
+
       <div className="flex items-center justify-center">
         <img
           src={product_img}
@@ -77,12 +93,13 @@ export const Product: React.FC = () => {
           <h2 className="text-lg md:text-2xl font-bold">
             {productDetails.product_name}
           </h2>
+
           <div className="mt-2 text-black font-bold">
             Benefits:
             {productDetails.benefits &&
-              productDetails.benefits.map((benefit: string) => (
-                <p>
-                  {benefit} <br />
+              productDetails.benefits.map((benefit: string, index: number) => (
+                <p key={index} className="mb-2">
+                  {benefit}
                 </p>
               ))}
           </div>

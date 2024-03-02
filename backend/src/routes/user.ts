@@ -86,7 +86,6 @@ router.get("/search/:searchid", async (req: Request, res: Response) => {
     try {
         const singleProductId: string = req.params.searchid;
         const singleProduct: string = await PRODUCT.findById(singleProductId) || "";
-        console.log(singleProductId)
         if(singleProduct){
             res.json({singleProduct});
         } else {

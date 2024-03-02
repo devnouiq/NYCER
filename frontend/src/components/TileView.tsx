@@ -1,7 +1,5 @@
 import React from "react";
 import product_img from "../assets/how_to_use.png";
-import { useNavigate } from "react-router-dom";
-import { Product } from "./Product";
 
 type IngredientsType = {
   ingredient_name?: string;
@@ -11,36 +9,34 @@ type IngredientsType = {
 };
 
 export type ProductView = {
-  product_id: string;
+  product_id: number;
   product_name: string;
   ingredients: IngredientsType[];
   benefits: string[];
+  setShowModal: (productId: number) => void;
 };
 
 export const TileView: React.FC<ProductView> = ({
   product_id,
+  setShowModal,
   product_name,
-  ingredients,
-  benefits,
 }) => {
-  function handleNavigation() {
-    console.log("Navigating to details...");
-    useNavigate();
-  }
-
+  const handleSeeDetails = () => {
+    setShowModal(product_id);
+  };
   return (
-    <div className="w-full md:w-64 border border-solid border-gray-300 p-4 shadow-md rounded-md h-auto md:h-80 overflow-hidden">
+    <div className="w-full md:w-64 border border-solid border-gray-300 p-4 shadow-md rounded-md h-auto md:h-80 overflow-hidden backdrop-blur-lg">
       <img
         src={product_img}
         alt={`Product: ${product_name}`}
-        className="h-40 md:h-48 w-full object-cover mb-4 rounded-md"
+        className="h-40 md:h-[180px] w-full object-cover mb-4 rounded-md"
       />
       <div className="text-center">
         <p className="text-white font-bold mb-2">{product_name}</p>
         <button
-          onClick={handleNavigation}
-          className="bg-black text-white p-2 rounded-xl hover:bg-black focus:outline-none focus:ring focus:border-white">
-          see details
+          className="bg-black text-white p-2 rounded-xl hover:bg-black focus:outline-none focus:ring focus:border-white"
+          onClick={handleSeeDetails}>
+          See details
         </button>
       </div>
     </div>

@@ -1,3 +1,5 @@
+import logo from "../assets/NYCERIconOnly-01.png";
+
 export const SloganPage = (props: {
   bg_color: string;
   line1: string;
@@ -6,9 +8,9 @@ export const SloganPage = (props: {
   line4: string;
 }) => {
   return (
-    <div className={`bg-[${props.bg_color}] pt-36 pb-32`}>
+    <div className={`bg-[${props.bg_color}] pt-20 pb-32`}>
       <div className="flex items-center justify-center text-white">
-        <img src="" alt="Logo" className="my-6" />
+        <img src={logo} alt="Logo" className="h-32 w-52" />
       </div>
       <div className="text-white text-center font-bold pt-14 text-6xl">
         {props.line1}
