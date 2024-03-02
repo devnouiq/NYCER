@@ -1,6 +1,6 @@
 import logo from "../assets/NYCERIconOnly-01.png";
 
-export const PageHeader = () => {
+export const PageHeader = ({signInoverlay,signUpoverlay}) => {
   const handleSignIn = () => {
     console.log("SignIn");
     signInoverlay(true)
