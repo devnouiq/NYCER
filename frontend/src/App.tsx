@@ -10,6 +10,8 @@ import "./App.css";
 import { Authenticator } from "@aws-amplify/ui-react";
 import { Amplify } from "aws-amplify";
 import "@aws-amplify/ui-react/styles.css";
+import { Account } from "./components/Account";
+import Status from "./components/Status";
 
 const user_pool_id = import.meta.env.VITE_USER_POOL_ID;
 const USERPOOLCLIENTID = import.meta.env.VITE_WEB_CLIENT_ID;
@@ -55,6 +57,10 @@ Amplify.configure({
 const currentConfig = Amplify.getConfig();
 import { PageFooter } from "./components/PageFooter";
 import { Product } from "./components/Product";
+import { signOut } from "@aws-amplify/auth";
+import SignUp from "./components/SignUp";
+import SignIn from "./components/SignIn";
+import { useState } from "react";
 
 function App() {
   const howtouseProps: InfoCardProps = {
@@ -81,12 +87,29 @@ function App() {
     textcolor: "black",
   };
 
+  const [toggleSignInOverlay, setToggleSignInOverlay] = useState(false);
+  const [toggleSignUpOverlay, setToggleSignUpOverlay] = useState(false);
+
+  const closeOvarlayHandler=(event)=>{
+    if(event.target.id==="parent-container"){
+      console.log("here");
+      
+      setToggleSignInOverlay(false);
+      setToggleSignUpOverlay(false);
+    }
+  }
+
   return (
-    <Authenticator>
-      <div>
+    <Account>
+      <div id="parent-container" onClick={closeOvarlayHandler}>
         {/* <Product /> */}
+        {/* <button>signOut</button> */}
+
         <div className="px-4 py-4 min-h-screen input_wrapper bg-[url('./assets/1.png')] bg-cover bg-center">
-          <PageHeader />
+          <PageHeader
+            signInoverlay={setToggleSignInOverlay}
+            signUpoverlay={setToggleSignUpOverlay}
+          />
           <div className="flex items-center justify-center min-h-[40vh] md:min-h-[60vh] w-full mt-12 md:mt-20">
             <SearchField placeholder="*find active ingredients" />
           </div>
@@ -113,7 +136,59 @@ function App() {
         <VIPPage />
         <PageFooter />
       </div>
-    </Authenticator>
+
+      <Status />
+      {toggleSignInOverlay && (
+        <div className="fixed inset-0 bg-gray-800 bg-opacity-50 items-center z-50">
+          <button
+            className="left-4"
+            onClick={() => setToggleSignInOverlay(false)}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#f2eeee"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="lucide lucide-x"
+            >
+              <path d="M18 6 6 18" />
+              <path d="m6 6 12 12" />
+            </svg>
+          </button>
+          <SignIn />
+        </div>
+      )}
+      {toggleSignUpOverlay && (
+        <div className="fixed inset-0 bg-gray-800 bg-opacity-50 items-center z-50">
+          <div>
+            <button onClick={() => setToggleSignUpOverlay(false)}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#f2eeee"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="lucide lucide-x"
+              >
+                <path d="M18 6 6 18" />
+                <path d="m6 6 12 12" />
+              </svg>
+            </button>
+          </div>
+          <SignUp />
+        </div>
+      )}
+    </Account>
+    // <SignIn/>
   );
 }
 

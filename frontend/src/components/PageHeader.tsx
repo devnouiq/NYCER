@@ -1,10 +1,12 @@
-export const PageHeader = () => {
+export const PageHeader = ({signInoverlay,signUpoverlay}) => {
   const handleSignIn = () => {
     console.log("SignIn");
+    signInoverlay(true)
   };
 
   const handleSignUp = () => {
     console.log("Signup");
+    signUpoverlay(true)
   };
 
   return (
@@ -20,6 +22,11 @@ export const PageHeader = () => {
       </div>
 
       <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
+      {/* <button
+          onClick={signOut}
+          className="bg-[#AF7153] text-white font-bold px-4 py-2 rounded">
+          Sign out
+        </button> */}
         <button
           onClick={handleSignIn}
           className="bg-[#AF7153] text-white font-bold px-4 py-2 rounded">
