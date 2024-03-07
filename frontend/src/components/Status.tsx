@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect } from "react";
 import { AccountContext } from "./Account";
 
 const Status = () => {
@@ -11,6 +11,8 @@ const Status = () => {
         setStatus(true);
       })
       .catch((err) => {
+        console.error(err);
+
         console.log("Please Login !");
       });
   }, []);

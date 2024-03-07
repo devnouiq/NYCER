@@ -11,7 +11,7 @@ export const VIPPage = () => {
           </p>
         </div>
 
-        <div className="mx-4 md:mx-12 mt-6 md:flex flex flex-col items-center justify-center">
+        <div className="mx-4 md:mx-12 mt-20 md:flex flex flex-col items-center justify-center">
           <div className="bg-[#AF7153] rounded-full h-32 md:h-52 w-32 md:w-52 text-[#AF4425] font-bold text-xl md:text-3xl flex items-center justify-center">
             USD 19
           </div>

@@ -12,10 +12,10 @@ export const SloganPage = (props: {
       <div className="flex items-center justify-center text-white">
         <img src={logo} alt="Logo" className="h-32 w-52" />
       </div>
-      <div className="text-white text-center font-bold pt-14 text-6xl">
+      <div className="text-white text-center font-bold pt-14 text-6xl mx-5">
         {props.line1}
-        <p>{props.line2}</p>
-        <p>{props.line3}</p>
+        <p className="md:m-[20px] sm:m-[20px]">{props.line2}</p>
+        <p className="md:m-[20px] sm:m-[20px]">{props.line3}</p>
       </div>
       <div className="text-white font-medium text-center pt-8">
         {props.line4}

@@ -7,11 +7,11 @@ import { ToolDescription } from "./components/ToolDescription";
 import { VIPPage } from "./components/VIPPage";
 import { InfoCard, InfoCardProps } from "./components/InfoCard";
 import "./App.css";
-import { Authenticator } from "@aws-amplify/ui-react";
+// import { Authenticator } from "@aws-amplify/ui-react";
 import { Amplify } from "aws-amplify";
 import "@aws-amplify/ui-react/styles.css";
 import { Account } from "./components/Account";
-import Status from "./components/Status";
+// import Status from "./components/Status";
 
 const user_pool_id = import.meta.env.VITE_USER_POOL_ID;
 const USERPOOLCLIENTID = import.meta.env.VITE_WEB_CLIENT_ID;
@@ -54,10 +54,10 @@ Amplify.configure({
   },
 });
 
-const currentConfig = Amplify.getConfig();
+// const currentConfig = Amplify.getConfig();
 import { PageFooter } from "./components/PageFooter";
-import { Product } from "./components/Product";
-import { signOut } from "@aws-amplify/auth";
+// import { Product } from "./components/Product";
+// import { signOut } from "@aws-amplify/auth";
 import SignUp from "./components/SignUp";
 import SignIn from "./components/SignIn";
 import { useState } from "react";
@@ -77,49 +77,54 @@ function App() {
   const aboutusProps: InfoCardProps = {
     imageSrc: abu,
     title: "ABOUT US",
-    subtitle: "knowledge is beauty",
+    subtitle: "KNOWLEDGE IS BEAUTY",
     content: [
       "NYCER Lifestyle advocates for the balance of aesthetic and wellness for your Self and your Space",
       "We believe in holistic development and are in constant pursuit of providing the best for our community be in the form of products, services or knowledge.",
-      "NYCER Search Tool was born out of the demand that women all over the world are becoming more aware of the ingredients they want to consume or apply on their bodies. The platform serves to make this search for active ingredients, products comparison, routine builder and many more, to be at your fingertips",
+      "NYCER Search Tool was born out of the demand that women all over the world are becoming more aware of the ingredients they want to consume or apply on their bodies. The platform serves to make this search for active ingredients, products comparison, routine builder and many more, to be at your fingertips.",
     ],
     backgroundColor: "#E1CEC3",
     textcolor: "black",
+    tilecolor: "#fff",
+    titlecolor: "#D1BAB5",
   };
 
   const [toggleSignInOverlay, setToggleSignInOverlay] = useState(false);
   const [toggleSignUpOverlay, setToggleSignUpOverlay] = useState(false);
 
-  const closeOvarlayHandler=(event)=>{
-    if(event.target.id==="parent-container"){
-      console.log("here");
-      
-      setToggleSignInOverlay(false);
-      setToggleSignUpOverlay(false);
-    }
-  }
+  // const closeOvarlayHandler = (event : React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+  //   if (event.target.id === "parent-container") {
+  //     console.log("here");
+
+  //     setToggleSignInOverlay(false);
+  //     setToggleSignUpOverlay(false);
+  //   }
+  // };
+  // onClick={closeOvarlayHandler}
 
   return (
     <Account>
-      <div id="parent-container" onClick={closeOvarlayHandler}>
-          {/* <button>signOut</button> */}
+      <div id="parent-container" >
+        {/* <button>signOut</button> */}
 
         <div className="px-4 py-4 min-h-screen input_wrapper bg-[url('./assets/1.png')] bg-cover bg-center">
           <PageHeader
-            signInoverlay={setToggleSignInOverlay}
-            signUpoverlay={setToggleSignUpOverlay}
+            signInoverlay={toggleSignInOverlay}
+            signUpoverlay={toggleSignUpOverlay}
+            setSignInoverlay={setToggleSignInOverlay}
+            setSignUpoverlay={setToggleSignUpOverlay}
           />
           <div className="flex items-center justify-center min-h-[40vh] md:min-h-[60vh] w-full mt-12 md:mt-20">
-            <SearchField placeholder="*find active ingredients" />
+            <SearchField placeholder="*find active ingredients" setOpenModal={setToggleSignInOverlay} openModal={toggleSignInOverlay} />
           </div>
-          <div className="text-white text-4xl md:text-7xl font-bold text-center mt-4 md:mt-8">
+          {/* <div className="text-white text-4xl md:text-7xl font-bold text-center mt-4 md:mt-8">
             Skincare At A Deeper Level
-          </div>
+          </div> */}
         </div>
 
         <SloganPage
           bg_color="#AF7153"
-          line1="YOU DESRVE THE"
+          line1="YOU DESERVE THE"
           line2="NYCER"
           line3="THINGS IN LIFE"
           line4="AND WE ARE HERE TO HELP YOU FIND THEM"
@@ -131,36 +136,16 @@ function App() {
           bg_color="#E1CEC3"
           line1="Live a NYCER life,"
           line3="Care for NYCER skin"
-          line4=" we believe in helping you achieve better"
+          line4="WE BELIEVE IN HELPING YOU ACHIEVE BETTER"
         />
         <VIPPage />
         <PageFooter />
       </div>
 
-      <Status />
+      {/* <Status /> */}
       {toggleSignInOverlay && (
         <div className="fixed inset-0 bg-gray-800 bg-opacity-50 items-center z-50">
-          <button
-            className="left-4"
-            onClick={() => setToggleSignInOverlay(false)}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="#f2eeee"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="lucide lucide-x"
-            >
-              <path d="M18 6 6 18" />
-              <path d="m6 6 12 12" />
-            </svg>
-          </button>
-          <SignIn />
+          <SignIn closeModal={setToggleSignInOverlay} />
         </div>
       )}
       {toggleSignUpOverlay && (
@@ -184,7 +169,7 @@ function App() {
               </svg>
             </button>
           </div>
-          <SignUp />
+          <SignUp closeModal={setToggleSignUpOverlay} />
         </div>
       )}
     </Account>
@@ -193,3 +178,4 @@ function App() {
 }
 
 export default App;
+// shx rm -rf dist/ &&

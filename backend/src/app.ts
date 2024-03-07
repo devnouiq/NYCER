@@ -19,7 +19,9 @@ app.use("/user", userRoute);
 
 (async () => {
     try {
-        await mongoose.connect(process.env.DB_URL!);
+        await mongoose.connect(process.env.DB_URL!,{
+            tlsCAFile: `global-bundle.pem` //Specify the DocDB; cert
+          },);
     } catch (err) {
         console.log("error: " + err);
     }

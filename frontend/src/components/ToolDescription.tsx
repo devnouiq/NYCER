@@ -5,7 +5,7 @@ export const ToolDescription = () => {
         <div className="md:pt-64 p-4">
           <p className="text-[#FFF7F7] font-bold text-4xl md:text-7xl">Our</p>
           <p className="text-[#AF7153] font-bold text-4xl md:text-7xl">Tools</p>
-          <p className="text-[#160D0C] py-4 md:py-6">F O R E V E R Y B O D Y</p>
+          <p className="text-[#160D0C] py-4 md:py-6"><span className="mr-3">F O R</span> <span>E V E R Y B O D Y</span></p>
           <p className="text-[#160D0C] pb-4 md:pb-6">
             NYCER Search Tool is the best platform for you to find the perfect
             skin solutions specifically for your skin type
@@ -32,7 +32,7 @@ export const ToolDescription = () => {
             choice.
           </p>
           <p className="font-bold py-2 md:py-4 text-xl md:text-2xl">
-            FIND DUPES
+            FIND DUPES <span className="text-gray-300 text-sm">(Coming Soon. Sign Up for exclusive updates)</span>
           </p>
           <p className="text-sm md:text-base">
             Some products can be super attractive but out of your price range.
@@ -40,7 +40,7 @@ export const ToolDescription = () => {
             will provide the same benefits at a fraction of the cost.
           </p>
           <p className="font-bold py-2 md:py-4 text-xl md:text-2xl">
-            SOLUTIONS TO SKIN PROBLEMS
+            SOLUTIONS TO SKIN PROBLEMS <span className="text-gray-300 text-sm">(Coming Soon. Sign Up for exclusive updates)</span>
           </p>
           <p className="text-sm md:text-base">
             Acne prone? Hyperpigmentation? Rosacea? No matter your skin
@@ -48,14 +48,14 @@ export const ToolDescription = () => {
             will tell you what ingredients you need.
           </p>
           <p className="font-bold py-2 md:py-4 text-xl md:text-2xl">
-            INGREDIENTS WIKI
+            INGREDIENTS WIKI <span className="text-gray-300 text-sm">(Coming Soon. Sign Up for exclusive updates)</span>
           </p>
           <p className="text-sm md:text-base">
             We built a one stop library for you to fulfil all your ingredients
             research needs at fast speeds.
           </p>
           <p className="font-bold py-2 md:py-4 text-xl md:text-2xl">
-            CREATE YOUR SKINCARE ROUTINE
+            CREATE YOUR SKINCARE ROUTINE <span className="text-gray-300 text-sm">(Coming Soon. Sign Up for exclusive updates)</span>
           </p>
           <p className="text-sm md:text-base">
             Sign up for a fully customized experience to search for ingredients
