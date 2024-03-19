@@ -23,17 +23,19 @@ const port = process.env.PORT || 3000;
 app.use(express_1.default.json());
 app.use((0, cors_1.default)());
 app.get("/", (req, res) => {
-    res.send("Hello World!!");
+    res.status(200).send("Server is up and running!");
 });
 app.use("/user", user_1.default);
 (() => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield mongoose_1.default.connect(process.env.DB_URL);
+        yield mongoose_1.default.connect(process.env.DB_URL, {
+            tlsCAFile: `global-bundle.pem`,
+        });
     }
     catch (err) {
         console.log("error: " + err);
     }
 }))();
 app.listen(port, () => {
-    console.log(`[server]: Server is running at http://localhost:${port}`);
+    console.log(`[server]: Server is running`);
 });

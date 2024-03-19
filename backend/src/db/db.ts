@@ -23,6 +23,7 @@ type IngredientsType = {
 export type ProductType = {
     brand_name: string;
     product_name: string;
+    product_img: string;
     product_type: string;
     what_it_is: string;
     cool_features: string;
@@ -34,16 +35,14 @@ export type ProductType = {
     product_info: ProductInfoType[];
     ingredients: IngredientsType[];
     when_to_use: string;
+    combined_data: string;
 }
-
-
 
 const userSchema = new Schema<UserType>({
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true }
 
 })
-
 
 const ProductInfoSchema = new Schema<ProductInfoType>({
     key: { type: String, required: true },
@@ -60,6 +59,7 @@ const IngredientsSchema = new Schema<IngredientsType>({
 const productSchema = new Schema({
     brand_name: { type: String, required: true },
     product_name: { type: String, required: true },
+    product_img: {type: String, required: true},
     product_type: { type: String, required: true },
     what_it_is: { type: String, required: true },
     cool_features: { type: String, required: true },
@@ -71,10 +71,12 @@ const productSchema = new Schema({
     product_info: { type: [ProductInfoSchema], required: true },
     ingredients: { type: [IngredientsSchema], required: true },
     when_to_use: { type: String, required: true },
+    combined_data: { type: String, required: true}
 });
 
+
 const USER = model<UserType>("User", userSchema);
-const PRODUCT = model<ProductType>("Product", productSchema);
+const PRODUCT = model<ProductType>("Products_data", productSchema, 'products_data');
 
 export {
     USER,

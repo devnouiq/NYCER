@@ -24,6 +24,7 @@ const IngredientsSchema = new mongoose_1.Schema({
 const productSchema = new mongoose_1.Schema({
     brand_name: { type: String, required: true },
     product_name: { type: String, required: true },
+    product_img: { type: String, required: true },
     product_type: { type: String, required: true },
     what_it_is: { type: String, required: true },
     cool_features: { type: String, required: true },
@@ -35,8 +36,9 @@ const productSchema = new mongoose_1.Schema({
     product_info: { type: [ProductInfoSchema], required: true },
     ingredients: { type: [IngredientsSchema], required: true },
     when_to_use: { type: String, required: true },
+    combined_data: { type: String, required: true }
 });
 const USER = (0, mongoose_1.model)("User", userSchema);
 exports.USER = USER;
-const PRODUCT = (0, mongoose_1.model)("Product", productSchema);
+const PRODUCT = (0, mongoose_1.model)("Products_data", productSchema, 'products_data');
 exports.PRODUCT = PRODUCT;

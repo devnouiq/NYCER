@@ -47,43 +47,19 @@ router.post("/signin", (req, res) => __awaiter(void 0, void 0, void 0, function*
         res.status(403).json({ message: "Invalid username or password" });
     }
 }));
-router.get("/test", (req, res) => {
-    res.json({ message: "test" });
-});
 router.get("/search", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const keyword = req.query.keyword;
     if (!keyword) {
         return res.status(400).json({ message: "Keyword is required" });
     }
     try {
-        const results = yield db_1.PRODUCT.find({
-            $or: [
-                { brand_name: { $regex: keyword, $options: 'i' } },
-                { product_name: { $regex: keyword, $options: 'i' } },
-                { product_type: { $regex: keyword, $options: 'i' } },
-                { what_it_is: { $regex: keyword, $options: 'i' } },
-                { cool_features: { $regex: keyword, $options: 'i' } },
-                { suited_for: { $regex: keyword, $options: 'i' } },
-                { free_from: { $regex: keyword, $options: 'i' } },
-                { fun_facts: { $regex: keyword, $options: 'i' } },
-                { notable_ingredients: { $elemMatch: { $regex: keyword, $options: 'i' } } },
-                { benefits: { $elemMatch: { $regex: keyword, $options: 'i' } } },
-                { 'product_info.key': { $regex: keyword, $options: 'i' } },
-                { 'product_info.status': { $regex: keyword, $options: 'i' } },
-                { 'ingredients.ingredient_name': { $regex: keyword, $options: 'i' } },
-                { 'ingredients.what_it_does': { $regex: keyword, $options: 'i' } },
-                { 'ingredients.community_rating': { $regex: keyword, $options: 'i' } },
-                { 'ingredients.description': { $regex: keyword, $options: 'i' } },
-                { when_to_use: { $regex: keyword, $options: 'i' } }
-            ]
-        });
+        const results = yield db_1.PRODUCT.find({ $text: { $search: keyword } }, { score: { $meta: "textScore" } }).sort({ score: { $meta: "textScore" } });
         if (results.length === 0) {
             return res.status(404).json({ message: "No matching products found" });
         }
         res.json({ message: "Search results", results: results });
     }
     catch (error) {
-        console.error(error);
         res.status(500).json({ message: "Internal server error" });
     }
 }));

@@ -6,27 +6,27 @@ import cors from "cors";
 dotenv.config();
 
 const app: Express = express();
-const port = process.env.PORT || 3000;
+const port: number | string = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(cors());
 
 app.get("/", (req: Request, res: Response) => {
-    res.send("Hello World!!");
+    res.status(200).send("Server is up and running!");
 });
 
 app.use("/user", userRoute);
 
 (async () => {
     try {
-        await mongoose.connect(process.env.DB_URL!,{
-            tlsCAFile: `global-bundle.pem` //Specify the DocDB; cert
-          },);
-    } catch (err) {
+        await mongoose.connect(process.env.DB_URL!, {
+            tlsCAFile: `global-bundle.pem`,
+        });
+    } catch (err: any) {
         console.log("error: " + err);
     }
 })();
 
 app.listen(port, () => {
-    console.log(`[server]: Server is running at http://localhost:${port}`);
+    console.log(`[server]: Server is running`);
 });
