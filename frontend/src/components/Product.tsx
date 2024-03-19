@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { ProductType, IngredientsType } from "../types/productType";
-import product_img from "../assets/how_to_use.png";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
@@ -76,42 +75,49 @@ export const Product: React.FC<ModalType> = ({
 
   return (
     <div className="bg-[#AF7153] p-4 md:p-8 mt-20 fixed inset-2 overflow-y-auto max-h-[80vh] max-w-[60vw] mx-auto rounded-lg shadow-lg">
-      <button onClick={handleCancel} className="text-white underline mb-4">
+      <button
+        onClick={handleCancel}
+        className="bg-black text-white p-2 rounded-xl hover:bg-black focus:outline-none focus:ring focus:border-white">
         Cancel
       </button>
 
-      <div className="flex items-center justify-center">
-        <img
-          src={product_img}
-          alt=""
-          className="h-40 w-40 md:h-48 md:w-48 rounded-md shadow-md"
-        />
-      </div>
-
       {productDetails && (
         <div className="mt-4 md:mt-6 text-white">
+          <div className="flex items-center justify-center">
+            <img
+              src={productDetails.product_img}
+              alt=""
+              className="h-40 w-40 md:h-48 md:w-48 object-contain rounded-md shadow-md bg-current"
+            />
+          </div>
           <h2 className="text-lg md:text-2xl font-bold">
             {productDetails.product_name}
           </h2>
 
-          <div className="mt-2 text-black font-bold">
-            Benefits:
-            {productDetails.benefits &&
-              productDetails.benefits.map((benefit: string, index: number) => (
-                <p key={index} className="mb-2">
-                  {benefit}
-                </p>
-              ))}
+          <div className="mt-2 p-4 border border-gray-300 rounded-lg shadow-md">
+            <h3 className="text-xl font-bold mb-4">Benefits:</h3>
+            <div className="text-black font-bold">
+              {productDetails.benefits &&
+                productDetails.benefits.map(
+                  (benefit: string, index: number) => (
+                    <p key={index} className="mb-2">
+                      {benefit}
+                    </p>
+                  )
+                )}
+            </div>
           </div>
 
           {productDetails.ingredients && (
-            <div className="mt-4">
+            <div className="mt-6">
               {productDetails.ingredients.map((ingredient: IngredientsType) => (
-                <div key={ingredient._id} className="mb-4">
-                  <h3 className="text-md md:text-lg font-bold">
+                <div
+                  key={ingredient._id}
+                  className="mb-8 p-6 bg-[#E1CEC3] rounded-lg shadow-md">
+                  <h3 className="text-lg md:text-xl font-semibold text-gray-800">
                     Ingredient Name: {ingredient.ingredient_name}
                   </h3>
-                  <p className="mt-1">
+                  <p className="mt-2 text-gray-600">
                     Description:{" "}
                     {ingredient.isExpanded
                       ? ingredient.description
@@ -121,16 +127,18 @@ export const Product: React.FC<ModalType> = ({
                   {ingredient.description &&
                     ingredient.description.length > 100 && (
                       <button
-                        className="text-black mt-1 underline focus:outline-none"
+                        className="text-slate-400 mt-2 hover:text-black focus:outline-none"
                         onClick={() => handleReadMore(ingredient._id)}>
                         {ingredient.isExpanded ? "Read Less" : "Read More"}
                       </button>
                     )}
 
-                  <p className="mt-1">
+                  <p className="mt-2 text-gray-600">
                     Community Rating: {ingredient.community_rating}
                   </p>
-                  <p>What It Does: {ingredient.what_it_does}</p>
+                  <p className="mt-2 text-gray-600">
+                    What It Does: {ingredient.what_it_does}
+                  </p>
                 </div>
               ))}
             </div>

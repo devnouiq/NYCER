@@ -16,6 +16,7 @@ export type ProductType = {
     _id: number;
     brand_name: string;
     product_name: string;
+    product_img: string;
     product_type: string;
     what_it_is: string;
     cool_features: string;

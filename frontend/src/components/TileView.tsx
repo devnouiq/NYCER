@@ -1,5 +1,4 @@
 import React from "react";
-import product_img from "../assets/how_to_use.png";
 
 type IngredientsType = {
   ingredient_name?: string;
@@ -11,6 +10,7 @@ type IngredientsType = {
 export type ProductView = {
   product_id: number;
   product_name: string;
+  product_img: string;
   ingredients: IngredientsType[];
   benefits: string[];
   setShowModal: (productId: number) => void;
@@ -20,6 +20,7 @@ export const TileView: React.FC<ProductView> = ({
   product_id,
   setShowModal,
   product_name,
+  product_img,
 }) => {
   const handleSeeDetails = () => {
     setShowModal(product_id);
@@ -29,7 +30,7 @@ export const TileView: React.FC<ProductView> = ({
       <img
         src={product_img}
         alt={`Product: ${product_name}`}
-        className="h-40 md:h-[180px] w-full object-cover mb-4 rounded-md"
+        className="h-40 md:h-[180px] w-full object-contain mb-4 rounded-md"
       />
       <div className="text-center">
         <p className="text-white font-bold mb-2">{product_name}</p>

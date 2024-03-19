@@ -80,7 +80,7 @@ function App() {
     subtitle: "KNOWLEDGE IS BEAUTY",
     content: [
       "NYCER Lifestyle advocates for the balance of aesthetic and wellness for your Self and your Space",
-      "We believe in holistic development and are in constant pursuit of providing the best for our community be in the form of products, services or knowledge.",
+      "We believe in holistic development and are in constant pursuit of providing the best for our community, be it in the form of products, services or knowledge.",
       "NYCER Search Tool was born out of the demand that women all over the world are becoming more aware of the ingredients they want to consume or apply on their bodies. The platform serves to make this search for active ingredients, products comparison, routine builder and many more, to be at your fingertips.",
     ],
     backgroundColor: "#E1CEC3",
@@ -104,7 +104,7 @@ function App() {
 
   return (
     <Account>
-      <div id="parent-container" >
+      <div id="parent-container">
         {/* <button>signOut</button> */}
 
         <div className="px-4 py-4 min-h-screen input_wrapper bg-[url('./assets/1.png')] bg-cover bg-center">
@@ -115,7 +115,11 @@ function App() {
             setSignUpoverlay={setToggleSignUpOverlay}
           />
           <div className="flex items-center justify-center min-h-[40vh] md:min-h-[60vh] w-full mt-12 md:mt-20">
-            <SearchField placeholder="*find active ingredients" setOpenModal={setToggleSignInOverlay} openModal={toggleSignInOverlay} />
+            <SearchField
+              placeholder="*find active ingredients"
+              setOpenModal={setToggleSignInOverlay}
+              openModal={toggleSignInOverlay}
+            />
           </div>
           {/* <div className="text-white text-4xl md:text-7xl font-bold text-center mt-4 md:mt-8">
             Skincare At A Deeper Level
@@ -162,8 +166,7 @@ function App() {
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                className="lucide lucide-x"
-              >
+                className="lucide lucide-x">
                 <path d="M18 6 6 18" />
                 <path d="m6 6 12 12" />
               </svg>
@@ -178,4 +181,3 @@ function App() {
 }
 
 export default App;
-// shx rm -rf dist/ &&

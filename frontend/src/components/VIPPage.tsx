@@ -37,7 +37,7 @@ export const VIPPage = () => {
             </li>
             <li className="p-1">Priority submissions </li>
             <li className="p-1">
-              First dips on beta testing for future upgrades and community
+              First dibs on beta testing for future upgrades and community
               building
             </li>
             <li className="p-1">
