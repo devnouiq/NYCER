@@ -1,13 +1,14 @@
 import { FormEvent, useState } from "react";
 import UserPool from "../UserPool";
 import { CognitoUser } from "amazon-cognito-identity-js";
+import { X } from "lucide-react";
 
-const SignUp = (props:{ closeModal:(val:boolean)=>void; }) => {
+const SignUp = (props: { closeModal: (val: boolean) => void }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [code, setCode] = useState("");
   const [confirmSignUp, setConfirmSignUp] = useState(false);
-  const onSubmitHandler = (event:FormEvent<HTMLFormElement>) => {
+  const onSubmitHandler = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     UserPool.signUp(email, password, [], [], (err, data) => {
       if (err) {
@@ -17,7 +18,7 @@ const SignUp = (props:{ closeModal:(val:boolean)=>void; }) => {
     setConfirmSignUp(true);
   };
 
-  const conformationHandler = (event:FormEvent<HTMLFormElement>) => {
+  const conformationHandler = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const User = new CognitoUser({
       Username: email,
@@ -39,24 +40,9 @@ const SignUp = (props:{ closeModal:(val:boolean)=>void; }) => {
         <div className="drop-shadow-xl h-96">
           <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
             <button
-              className="left-4 ml-[90%] sm:ml-[30%]"
-              onClick={() => props.closeModal(false)}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="#f2eeee"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="lucide lucide-x"
-              >
-                <path d="M18 6 6 18" />
-                <path d="m6 6 12 12" />
-              </svg>
+              className="ml-[90%] sm:ml-[30%] md:ml-[30%] text-white"
+              onClick={() => props.closeModal(false)}>
+              <X />
             </button>
             <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-[#bf8678] dark:border-gray-700">
               <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
@@ -68,13 +54,11 @@ const SignUp = (props:{ closeModal:(val:boolean)=>void; }) => {
                 </h1>
                 <form
                   className="space-y-4 md:space-y-6"
-                  onSubmit={onSubmitHandler}
-                >
+                  onSubmit={onSubmitHandler}>
                   <div>
                     <label
                       htmlFor="email"
-                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                    >
+                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                       Your email
                     </label>
                     <input
@@ -93,8 +77,7 @@ const SignUp = (props:{ closeModal:(val:boolean)=>void; }) => {
                   <div>
                     <label
                       htmlFor="password"
-                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                    >
+                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                       Password
                     </label>
                     <input
@@ -113,16 +96,14 @@ const SignUp = (props:{ closeModal:(val:boolean)=>void; }) => {
 
                   <button
                     type="submit"
-                    className="w-full text-white bg-[#AF7153] hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-                  >
+                    className="w-full text-white bg-[#AF7153] hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
                     Create Account
                   </button>
-                  <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+                  <p className="text-sm font-light text-white">
                     Already have an account yet?{" "}
                     <a
                       href="#"
-                      className="font-medium text-primary-600 hover:underline dark:text-primary-500"
-                    >
+                      className="font-medium text-primary-600 hover:underline dark:text-primary-500">
                       Sign in
                     </a>
                   </p>
@@ -143,13 +124,11 @@ const SignUp = (props:{ closeModal:(val:boolean)=>void; }) => {
                 </h1>
                 <form
                   className="space-y-4 md:space-y-6"
-                  onSubmit={conformationHandler}
-                >
+                  onSubmit={conformationHandler}>
                   <div>
                     <label
                       htmlFor="email"
-                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                    >
+                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                       Verification Code
                     </label>
                     <input
@@ -168,8 +147,7 @@ const SignUp = (props:{ closeModal:(val:boolean)=>void; }) => {
 
                   <button
                     type="submit"
-                    className="w-full text-white bg-[#AF7153] hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-                  >
+                    className="w-full text-white bg-[#AF7153] hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
                     Submit
                   </button>
                 </form>

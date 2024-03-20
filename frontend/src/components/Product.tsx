@@ -30,7 +30,7 @@ export const Product: React.FC<ModalType> = ({
 
   const loadAllData = async () => {
     try {
-      const response = await axios.get(`${BASE_URL}/user/search/${product_id}`);
+      const response = await axios.get(`${BASE_URL}/search/${product_id}`);
       setProductDetails(response.data.singleProduct);
     } catch (error) {
       console.error(error);

@@ -51,7 +51,7 @@ export const SearchField: React.FC<Props> = ({
       setLoading(true);
       const keyword: string = val;
       axios
-        .get(`${BASE_URL}/user/search`, {
+        .get(`${BASE_URL}/search`, {
           params: {
             keyword: keyword,
           },
