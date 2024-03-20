@@ -3,14 +3,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PRODUCT = exports.USER = void 0;
+exports.PRODUCT = void 0;
 const mongoose_1 = require("mongoose");
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
-const userSchema = new mongoose_1.Schema({
-    email: { type: String, required: true, unique: true },
-    password: { type: String, required: true }
-});
 const ProductInfoSchema = new mongoose_1.Schema({
     key: { type: String, required: true },
     status: { type: String, required: true }
@@ -38,7 +34,5 @@ const productSchema = new mongoose_1.Schema({
     when_to_use: { type: String, required: true },
     combined_data: { type: String, required: true }
 });
-const USER = (0, mongoose_1.model)("User", userSchema);
-exports.USER = USER;
 const PRODUCT = (0, mongoose_1.model)("Products_data", productSchema, 'products_data');
 exports.PRODUCT = PRODUCT;

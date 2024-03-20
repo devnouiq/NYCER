@@ -25,7 +25,7 @@ app.use((0, cors_1.default)());
 app.get("/", (req, res) => {
     res.status(200).send("Server is up and running!");
 });
-app.use("/user", user_1.default);
+app.use("/", user_1.default);
 (() => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield mongoose_1.default.connect(process.env.DB_URL, {
@@ -37,5 +37,5 @@ app.use("/user", user_1.default);
     }
 }))();
 app.listen(port, () => {
-    console.log(`[server]: Server is running`);
+    console.log(`[server]: Server is running ${process.pid}`);
 });

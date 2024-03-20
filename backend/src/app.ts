@@ -15,7 +15,7 @@ app.get("/", (req: Request, res: Response) => {
     res.status(200).send("Server is up and running!");
 });
 
-app.use("/user", userRoute);
+app.use("/", userRoute);
 
 (async () => {
     try {
@@ -28,5 +28,5 @@ app.use("/user", userRoute);
 })();
 
 app.listen(port, () => {
-    console.log(`[server]: Server is running`);
+    console.log(`[server]: Server is running ${process.pid}`);
 });

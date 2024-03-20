@@ -3,11 +3,6 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-export type UserType = {
-    email: string,
-    password: string
-}
-
 type ProductInfoType = {
     key: string,
     status: string
@@ -37,12 +32,6 @@ export type ProductType = {
     when_to_use: string;
     combined_data: string;
 }
-
-const userSchema = new Schema<UserType>({
-    email: { type: String, required: true, unique: true },
-    password: { type: String, required: true }
-
-})
 
 const ProductInfoSchema = new Schema<ProductInfoType>({
     key: { type: String, required: true },
@@ -74,11 +63,8 @@ const productSchema = new Schema({
     combined_data: { type: String, required: true}
 });
 
-
-const USER = model<UserType>("User", userSchema);
 const PRODUCT = model<ProductType>("Products_data", productSchema, 'products_data');
 
 export {
-    USER,
     PRODUCT
 }

@@ -14,46 +14,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const db_1 = require("../db/db");
-const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
-const SECRET_KEY = process.env.ACCESS_TOKEN_SECRET || '';
 const router = express_1.default.Router();
-function generateJwtForUser(user) {
-    const payload = { email: user.email };
-    return jsonwebtoken_1.default.sign(payload, SECRET_KEY, { expiresIn: "1h" });
-}
-router.post("/signup", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { email, password } = req.body;
-    const userFound = yield db_1.USER.findOne({ email });
-    if (userFound) {
-        res.status(401).json({ message: "User already exists!" });
-    }
-    else {
-        const newUser = new db_1.USER({ email, password });
-        yield newUser.save();
-        const token = generateJwtForUser(newUser);
-        res.status(201).json({ message: "new user created successfully!!", token: token });
-    }
-}));
-router.post("/signin", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { email, password } = req.body;
-    const user = yield db_1.USER.findOne({ email, password });
-    if (user) {
-        const token = generateJwtForUser(user);
-        res.json({ message: "user logged in sucessfully!!", token: token });
-    }
-    else {
-        res.status(403).json({ message: "Invalid username or password" });
-    }
-}));
 router.get("/search", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const keyword = req.query.keyword;
     if (!keyword) {
         return res.status(400).json({ message: "Keyword is required" });
     }
     try {
-        const results = yield db_1.PRODUCT.find({ $text: { $search: keyword } }, { score: { $meta: "textScore" } }).sort({ score: { $meta: "textScore" } });
+        const results = yield db_1.PRODUCT.find({ $text: { $search: keyword } }, { brand_name: 1, product_name: 1, product_img: 1, score: { $meta: "textScore" } } // Projection
+        ).sort({ score: { $meta: "textScore" } }).limit(10);
         if (results.length === 0) {
             return res.status(404).json({ message: "No matching products found" });
         }

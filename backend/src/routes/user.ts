@@ -1,42 +1,9 @@
-import express, { Express, Request, Response } from "express";
-import { USER, UserType, ProductType, PRODUCT } from "../db/db"
-import jwt from "jsonwebtoken";
+import express, { Request, Response } from "express";
+import { PRODUCT } from "../db/db"
 import dotenv from "dotenv";
 dotenv.config();
 
-const SECRET_KEY: string = process.env.ACCESS_TOKEN_SECRET || '';
-
 const router = express.Router();
-
-function generateJwtForUser(user: UserType) {
-    const payload = { email: user.email }
-    return jwt.sign(payload, SECRET_KEY, { expiresIn: "1h" });
-}
-
-router.post("/signup", async (req: Request, res: Response) => {
-    const { email, password } = req.body;
-    const userFound = await USER.findOne({ email });
-    if (userFound) {
-        res.status(401).json({ message: "User already exists!" });
-    } else {
-        const newUser = new USER({ email, password });
-        await newUser.save();
-        const token = generateJwtForUser(newUser);
-        res.status(201).json({ message: "new user created successfully!!", token: token });
-    }
-})
-
-router.post("/signin", async (req: Request, res: Response) => {
-    const { email, password } = req.body;
-    const user: UserType | null = await USER.findOne({ email, password });
-
-    if (user) {
-        const token = generateJwtForUser(user);
-        res.json({ message: "user logged in sucessfully!!", token: token });
-    } else {
-        res.status(403).json({ message: "Invalid username or password" });
-    }
-})
 
 router.get("/search", async (req: Request, res: Response) => {
     const keyword: string = req.query.keyword as string;
@@ -48,8 +15,8 @@ router.get("/search", async (req: Request, res: Response) => {
     try {
         const results = await PRODUCT.find(
             { $text: { $search: keyword } },
-            { score: { $meta: "textScore" } }
-        ).sort({ score: { $meta: "textScore" } });
+            { brand_name: 1, product_name: 1, product_img: 1, score: { $meta: "textScore" } } // Projection
+        ).sort({ score: { $meta: "textScore" } }).limit(10);
 
         if (results.length === 0) {
             return res.status(404).json({ message: "No matching products found" });
