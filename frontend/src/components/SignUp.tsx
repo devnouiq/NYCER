@@ -8,8 +8,34 @@ const SignUp = (props: { closeModal: (val: boolean) => void }) => {
   const [password, setPassword] = useState("");
   const [code, setCode] = useState("");
   const [confirmSignUp, setConfirmSignUp] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
   const onSubmitHandler = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (password.length < 8) {
+      setErrorMessage("Password must be at least 8 characters long.");
+      return;
+    }
+
+    if (!/\d/.test(password)) {
+      setErrorMessage("Password must contain at least 1 number.");
+      return;
+    }
+
+    if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+      setErrorMessage("Password must contain at least 1 special character.");
+      return;
+    }
+
+    if (!/[A-Z]/.test(password)) {
+      setErrorMessage("Password must contain at least 1 uppercase letter.");
+      return;
+    }
+
+    if (!/[a-z]/.test(password)) {
+      setErrorMessage("Password must contain at least 1 lowercase letter.");
+      return;
+    }
     UserPool.signUp(email, password, [], [], (err, data) => {
       if (err) {
         console.log(err);
@@ -76,14 +102,14 @@ const SignUp = (props: { closeModal: (val: boolean) => void }) => {
                   </div>
                   <div>
                     <label
-                      htmlFor="password"
+                      htmlFor="confirm-password"
                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                      Password
+                      Confirm Password
                     </label>
                     <input
                       type="password"
-                      name="password"
-                      id="password"
+                      name="confirm-password"
+                      id="confirm-password"
                       value={password}
                       onChange={(event) => {
                         setPassword(event.target.value);
@@ -93,6 +119,11 @@ const SignUp = (props: { closeModal: (val: boolean) => void }) => {
                       required
                     />
                   </div>
+                  {errorMessage && (
+                    <p className="text-black font-semibold text-center">
+                      {errorMessage}
+                    </p>
+                  )}
 
                   <button
                     type="submit"
