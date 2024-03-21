@@ -14,9 +14,19 @@ router.get("/search", async (req: Request, res: Response) => {
 
     try {
         const results = await PRODUCT.find(
-            { $text: { $search: keyword } },
-            { brand_name: 1, product_name: 1, product_img: 1, score: { $meta: "textScore" } } // Projection
-        ).sort({ score: { $meta: "textScore" } }).limit(10);
+        {
+            $or: [
+            { brand_name: { $regex: keyword, $options: "i" } },
+            { product_name: { $regex: keyword, $options: "i" } },
+            { notable_ingredients: { $regex: keyword, $options: "i" } },
+            ]
+        },
+        {
+            brand_name: 1,
+            product_name: 1,
+            product_img: 1
+        }
+        ).limit(10);
 
         if (results.length === 0) {
             return res.status(404).json({ message: "No matching products found" });
