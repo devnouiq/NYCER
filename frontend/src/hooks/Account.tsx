@@ -1,6 +1,11 @@
 import { createContext, useState } from "react";
-import UserPool from "../UserPool";
-import { CognitoUser, AuthenticationDetails, CognitoUserSession } from "amazon-cognito-identity-js";
+import UserPool from "./UserPool";
+import {
+  CognitoUser,
+  AuthenticationDetails,
+  CognitoUserSession,
+} from "amazon-cognito-identity-js";
+
 interface AccountContextType {
   authenticate: (email: string, password: string) => Promise<unknown>;
   getSession: () => Promise<void>;
@@ -15,10 +20,8 @@ const AccountContext = createContext<AccountContextType>({
   currentUser: undefined,
 });
 
-// const AccountContext = createContext();
-
 const Account = (props: any) => {
-  const [currentUser, setCurrentUser] = useState<CognitoUserSession|null>();
+  const [currentUser, setCurrentUser] = useState<CognitoUserSession | null>();
   const getSession = async (): Promise<void> => {
     return await new Promise<void>((resolve, reject) => {
       const user = UserPool.getCurrentUser();
@@ -74,8 +77,7 @@ const Account = (props: any) => {
   };
   return (
     <AccountContext.Provider
-      value={{ authenticate, getSession, logout,currentUser }}
-    >
+      value={{ authenticate, getSession, logout, currentUser }}>
       {props.children}
     </AccountContext.Provider>
   );

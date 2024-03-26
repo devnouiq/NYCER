@@ -1,20 +1,5 @@
 import React from "react";
-
-type IngredientsType = {
-  ingredient_name?: string;
-  what_it_does?: string;
-  community_rating?: string;
-  description?: string;
-};
-
-export type ProductView = {
-  product_id: number;
-  product_name: string;
-  product_img: string;
-  ingredients: IngredientsType[];
-  benefits: string[];
-  setShowModal: (productId: number) => void;
-};
+import { ProductView } from "../types/TileViewTypes";
 
 export const TileView: React.FC<ProductView> = ({
   product_id,
@@ -22,9 +7,6 @@ export const TileView: React.FC<ProductView> = ({
   product_name,
   product_img,
 }) => {
-  const handleSeeDetails = () => {
-    setShowModal(product_id);
-  };
   return (
     <div className="w-full md:w-64 border border-solid border-gray-300 p-4 shadow-md rounded-md h-auto md:h-80 overflow-hidden backdrop-blur-lg">
       <img
@@ -36,12 +18,12 @@ export const TileView: React.FC<ProductView> = ({
         <p className="text-white font-bold mb-2">{product_name}</p>
         <button
           className="bg-black text-white p-2 rounded-xl hover:bg-black focus:outline-none focus:ring focus:border-white"
-          onClick={handleSeeDetails}>
+          onClick={() => {
+            setShowModal(product_id);
+          }}>
           See details
         </button>
       </div>
     </div>
   );
 };
-
-export default TileView;

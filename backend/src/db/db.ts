@@ -63,7 +63,7 @@ const productSchema = new Schema({
     combined_data: { type: String, required: true}
 });
 
-const PRODUCT = model<ProductType>("Products", productSchema, 'products');
+const PRODUCT = model<ProductType>("Product1", productSchema, 'product1');
 
 export {
     PRODUCT

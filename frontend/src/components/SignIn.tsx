@@ -1,26 +1,16 @@
-import { useState, useContext, FormEvent } from "react";
-import { AccountContext } from "./Account";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { X } from "lucide-react";
+import useAuth from "../hooks/useAuth";
 
-const SignIn = (props: { closeModal: (val: boolean) => void }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const { authenticate } = useContext(AccountContext);
-
-  const onSubmitHandler = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    authenticate(email, password)
-      .then((data) => {
-        console.log("Logged In! ", data);
-        props.closeModal(false);
-      })
-      .catch((err) => {
-        console.error("Failed to login ! ", err);
-        toast.error(err.message, { position: "top-center" });
-      });
-  };
+export const SignIn = (props: { closeModal: (val: boolean) => void }) => {
+  const {
+    email,
+    password,
+    handleEmailChange,
+    handlePasswordChange,
+    handleSubmit,
+  } = useAuth();
 
   return (
     <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
@@ -37,7 +27,9 @@ const SignIn = (props: { closeModal: (val: boolean) => void }) => {
           <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
             Sign in to your account
           </h1>
-          <form className="space-y-4 md:space-y-6" onSubmit={onSubmitHandler}>
+          <form
+            className="space-y-4 md:space-y-6"
+            onSubmit={(e) => handleSubmit(e, props.closeModal)}>
             <div>
               <label
                 htmlFor="email"
@@ -49,9 +41,7 @@ const SignIn = (props: { closeModal: (val: boolean) => void }) => {
                 name="email"
                 id="email"
                 value={email}
-                onChange={(event) => {
-                  setEmail(event.target.value);
-                }}
+                onChange={handleEmailChange}
                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="name@company.com"
                 required
@@ -68,9 +58,7 @@ const SignIn = (props: { closeModal: (val: boolean) => void }) => {
                 name="password"
                 id="password"
                 value={password}
-                onChange={(event) => {
-                  setPassword(event.target.value);
-                }}
+                onChange={handlePasswordChange}
                 placeholder="••••••••"
                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 required
@@ -97,5 +85,3 @@ const SignIn = (props: { closeModal: (val: boolean) => void }) => {
     </div>
   );
 };
-
-export default SignIn;

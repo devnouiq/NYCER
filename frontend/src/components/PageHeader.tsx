@@ -1,78 +1,64 @@
-import { useContext, useEffect, useState } from "react";
+import React from "react";
 import logo from "../assets/NYCERIconOnly-01.png";
-import { AccountContext } from "./Account";
-// import { CognitoUserSession } from "amazon-cognito-identity-js";
+import { useNavigate } from "react-router-dom";
+import { usePageHeaderHooks } from "../hooks/usePageHeaderHooks";
+import { PageHeaderProps } from "../types/PageHeaderTypes";
 
-export const PageHeader = ({signInoverlay,signUpoverlay, setSignInoverlay, setSignUpoverlay }: any) => {
-  const handleSignIn = () => {
-    console.log("SignIn");
-    setSignInoverlay(true);
-  };
-
-  const handleSignUp = () => {
-    console.log("Signup");
-    setSignUpoverlay(true);
-  };
-  const { getSession, logout } = useContext(AccountContext);
-  const [currentUser,setCurrentUser]=useState<any>()
-  useEffect(() => {
-    getSession()
-      .then((session) => {
-        console.log("Session: ", session);
-        setCurrentUser(session);
-      })
-      .catch((err) => {
-        console.error(err);
-        
-        console.log("Please Login !");
-      });
-  }, [signInoverlay,signUpoverlay]);
-  // let currentUser
-  // console.log(currentUser);
-  // if(currentUser) console.log(currentUser.idToken.payload.email);
-  
-  
-  // currentUser??console.log(currentUser.idToken.payload.email);
-  
+export const PageHeader: React.FC<PageHeaderProps> = ({
+  signInOverlay,
+  signUpOverlay,
+  setSignInOverlay,
+  setSignUpOverlay,
+}) => {
+  const { currentUser, handleSignIn, handleSignUp, handleLogout } =
+    usePageHeaderHooks({
+      signInOverlay,
+      signUpOverlay,
+      setSignInOverlay,
+      setSignUpOverlay,
+    });
+  const navigate = useNavigate();
 
   return (
     <nav className="bg-transparent p-4 flex flex-col md:flex-row items-center justify-between">
-      <div className="flex items-center mb-4 md:mb-0">
-        <img src={logo} alt="Logo" className="h-20 w-full md:mr-2" />
+      <div className="flex items-center mb-4 md:pb-3">
+        <img
+          src={logo}
+          alt="Logo"
+          className="h-14 md:h-16 cursor-pointer"
+          onClick={() => navigate("/")}
+        />
       </div>
 
-      <div className="flex flex-col md:flex-row space-y-4 my-2 md:space-y-0 md:space-x-4">
-        <button className="text-white">Products</button>
+      <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
+        <button className="text-white" onClick={() => navigate("/products")}>
+          Products
+        </button>
         <button className="text-white">Ingredients</button>
       </div>
 
       <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
-        {currentUser && (
+        {currentUser ? (
           <>
-            <div className="text-white absolute right-36 z-10">{currentUser.idToken.payload.email}</div>
+            <div className="text-white py-2">
+              {currentUser.idToken.payload.email.split("@")[0]}
+            </div>
             <button
-              onClick={() => {
-                logout();
-                
-              }}
-              className="bg-[#AF7153] text-white font-bold px-4 py-2 rounded"
-            >
+              onClick={handleLogout}
+              className="bg-[#AF7153] text-white font-bold px-4 py-2 rounded">
               Sign out
             </button>
           </>
-        )}
-        {!currentUser && (
+        ) : (
           <>
             <button
               onClick={handleSignIn}
-              className="bg-[#AF7153] text-white font-bold px-4 py-2 rounded"
-            >
+              className="bg-[#AF7153] text-white font-bold px-4 py-2 rounded">
               Log In
             </button>
             <button
               onClick={handleSignUp}
-              className="bg-[#AF7153] text-white font-bold px-4 py-2 rounded"
-            >
+              className="bg-[#AF7153] text-white font-bold px-4 py-2 rounded">
               Sign Up
             </button>
           </>

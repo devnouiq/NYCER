@@ -1,65 +1,19 @@
-import { FormEvent, useState } from "react";
-import UserPool from "../UserPool";
-import { CognitoUser } from "amazon-cognito-identity-js";
 import { X } from "lucide-react";
+import useSignUpForm from "../hooks/useSignUpForm";
 
-const SignUp = (props: { closeModal: (val: boolean) => void }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [code, setCode] = useState("");
-  const [confirmSignUp, setConfirmSignUp] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
-
-  const onSubmitHandler = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (password.length < 8) {
-      setErrorMessage("Password must be at least 8 characters long.");
-      return;
-    }
-
-    if (!/\d/.test(password)) {
-      setErrorMessage("Password must contain at least 1 number.");
-      return;
-    }
-
-    if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
-      setErrorMessage("Password must contain at least 1 special character.");
-      return;
-    }
-
-    if (!/[A-Z]/.test(password)) {
-      setErrorMessage("Password must contain at least 1 uppercase letter.");
-      return;
-    }
-
-    if (!/[a-z]/.test(password)) {
-      setErrorMessage("Password must contain at least 1 lowercase letter.");
-      return;
-    }
-    UserPool.signUp(email, password, [], [], (err, data) => {
-      if (err) {
-        console.log(err);
-      } else console.log(data);
-    });
-    setConfirmSignUp(true);
-  };
-
-  const conformationHandler = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const User = new CognitoUser({
-      Username: email,
-      Pool: UserPool,
-    });
-    User.confirmRegistration(code, true, (err, data) => {
-      if (data) {
-        props.closeModal(false);
-      }
-      if (err) {
-        console.log(err);
-      } else console.log(data);
-    });
-    // UserPool.
-  };
+export const SignUp = (props: { closeModal: (val: boolean) => void }) => {
+  const {
+    email,
+    setEmail,
+    password,
+    setPassword,
+    code,
+    setCode,
+    confirmSignUp,
+    errorMessage,
+    onSubmitHandler,
+    confirmationHandler,
+  } = useSignUpForm(props.closeModal);
   return (
     <div>
       {!confirmSignUp && (
@@ -155,7 +109,7 @@ const SignUp = (props: { closeModal: (val: boolean) => void }) => {
                 </h1>
                 <form
                   className="space-y-4 md:space-y-6"
-                  onSubmit={conformationHandler}>
+                  onSubmit={confirmationHandler}>
                   <div>
                     <label
                       htmlFor="email"
@@ -190,5 +144,3 @@ const SignUp = (props: { closeModal: (val: boolean) => void }) => {
     </div>
   );
 };
-
-export default SignUp;

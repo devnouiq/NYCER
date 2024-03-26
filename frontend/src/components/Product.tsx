@@ -1,14 +1,5 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { ProductType, IngredientsType } from "../types/productType";
-
-const BASE_URL = import.meta.env.VITE_BASE_URL;
-
-interface ModalType {
-  visible: boolean;
-  setShowModal: (productId: number | null) => void;
-  product_id: number;
-}
+import { useProduct } from "../hooks/useProductDetails";
+import { IngredientsType, ProductType, ModalType } from "../types/ProductTypes";
 
 export const Product: React.FC<ModalType> = ({
   visible,
@@ -16,26 +7,6 @@ export const Product: React.FC<ModalType> = ({
   product_id,
 }) => {
   if (!visible) return null;
-
-  const handleCancel = () => {
-    setShowModal(null);
-  };
-
-  const [productDetails, setProductDetails] = useState<ProductType | null>(
-    null
-  );
-  useEffect(() => {
-    loadAllData();
-  }, []);
-
-  const loadAllData = async () => {
-    try {
-      const response = await axios.get(`${BASE_URL}/search/${product_id}`);
-      setProductDetails(response.data.singleProduct);
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   const truncateDescription = (
     maxLength: number,
@@ -49,7 +20,10 @@ export const Product: React.FC<ModalType> = ({
     return "";
   };
 
-  const handleReadMore = (ingredientId: number): void => {
+  const handleReadMore = (
+    setProductDetails: React.Dispatch<React.SetStateAction<ProductType | null>>,
+    ingredientId: number
+  ): void => {
     setProductDetails((prevProductDetails) => {
       if (!prevProductDetails) {
         return prevProductDetails;
@@ -73,10 +47,14 @@ export const Product: React.FC<ModalType> = ({
     });
   };
 
+  const { productDetails, setProductDetails } = useProduct(product_id);
+
   return (
     <div className="bg-[#AF7153] p-4 md:p-8 mt-20 fixed inset-2 overflow-y-auto max-h-[80vh] max-w-[60vw] mx-auto rounded-lg shadow-lg">
       <button
-        onClick={handleCancel}
+        onClick={() => {
+          setShowModal(null);
+        }}
         className="bg-black text-white p-2 rounded-xl hover:bg-black focus:outline-none focus:ring focus:border-white">
         Cancel
       </button>
@@ -114,7 +92,7 @@ export const Product: React.FC<ModalType> = ({
                 <div
                   key={ingredient._id}
                   className="mb-8 p-6 bg-[#E1CEC3] rounded-lg shadow-md">
-                  <h3 className="text-lg md:text-xl font-semibold text-gray-800">
+                  <h3 className="text-lg md:text-xl font-semibold text-gray-800 flex ite">
                     Ingredient Name: {ingredient.ingredient_name}
                   </h3>
                   <p className="mt-2 text-gray-600">
@@ -128,7 +106,9 @@ export const Product: React.FC<ModalType> = ({
                     ingredient.description.length > 100 && (
                       <button
                         className="text-slate-400 mt-2 hover:text-black focus:outline-none"
-                        onClick={() => handleReadMore(ingredient._id)}>
+                        onClick={() =>
+                          handleReadMore(setProductDetails, ingredient._id)
+                        }>
                         {ingredient.isExpanded ? "Read Less" : "Read More"}
                       </button>
                     )}

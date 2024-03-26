@@ -1,5 +1,5 @@
 import express, { Request, Response } from "express";
-import { PRODUCT } from "../db/db"
+import { PRODUCT, ProductType } from "../db/db"
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -50,6 +50,27 @@ router.get("/search/:searchid", async (req: Request, res: Response) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({message: "Internal Server Error"});
+    }
+});
+
+
+router.get("/products", async (req: Request, res: Response) => {
+    try {
+        const randomProducts: ProductType[] = await PRODUCT.aggregate([
+            { $sample: { size: 6 } },
+            {
+                $project: {
+                    brand_name: 1,
+                    product_name: 1,
+                    product_img: 1
+                }
+            }
+        ]);
+
+        res.json({ randomProducts });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Internal Server Error" });
     }
 });
 

@@ -29,3 +29,10 @@ export type ProductType = {
     ingredients: IngredientsType[];
     when_to_use: string;
 }
+
+
+export type ModalType= {
+  visible: boolean;
+  setShowModal: (productId: number | null) => void;
+  product_id: number;
+}

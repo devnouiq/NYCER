@@ -1,78 +1,30 @@
-import { useEffect, useState, useContext } from "react";
+import React from "react";
 import { Search } from "lucide-react";
-import { ProductType } from "../types/productType";
-import axios from "axios";
+import { useSearchFieldHooks } from "../hooks/useSearchFieldHooks";
+import { SearchFieldProps } from "../types/SearchFieldTypes";
+import { Loading } from "./Loading";
 import { TileView } from "./TileView";
 import { Product } from "./Product";
-import { AccountContext } from "./Account";
-import { Loading } from "./Loading";
+import { ProductType } from "../types/ProductTypes";
 
-const BASE_URL: string = import.meta.env.VITE_BASE_URL;
-
-interface Props {
-  placeholder: string;
-  setOpenModal: (val: boolean) => void;
-  openModal: boolean;
-}
-
-export const SearchField: React.FC<Props> = ({
+export const SearchField: React.FC<SearchFieldProps> = ({
   placeholder,
   setOpenModal,
   openModal,
 }) => {
-  const [searchProduct, setSearchProduct] = useState<ProductType[]>([]);
-  const [val, setVal] = useState<string>("");
-  const [displayedProducts, setDisplayedProducts] = useState<number>(3);
-  const [showModal, setShowModal] = useState<number | null>(null);
-  const { getSession } = useContext(AccountContext);
-  const [currentUser, setCurrentUser] = useState<void>();
-  const [loading, setLoading] = useState<boolean>(false);
+  const {
+    searchProduct,
+    val,
+    displayedProducts,
+    showModal,
+    loading,
+    handleLoadMore,
+    handleSearch,
+    handleKeyPress,
+    setShowModal,
+    setVal,
+  } = useSearchFieldHooks(openModal, setOpenModal);
 
-  useEffect(() => {
-    getSession()
-      .then((session) => {
-        console.log("Session: ", session);
-        setCurrentUser(session);
-      })
-      .catch((err) => {
-        console.error(err);
-        console.log("Please Login !");
-      });
-  }, [openModal]);
-
-  function handleLoadMore() {
-    setDisplayedProducts(displayedProducts + 3);
-  }
-
-  function handleSearch(val: string) {
-    if (!currentUser) {
-      setOpenModal(true);
-    } else {
-      setLoading(true);
-      const keyword: string = val;
-      axios
-        .get(`${BASE_URL}/search`, {
-          params: {
-            keyword: keyword,
-          },
-        })
-        .then((response) => {
-          setSearchProduct(response.data.results);
-        })
-        .catch((error) => {
-          console.error(error);
-        })
-        .finally(() => {
-          setLoading(false);
-        });
-    }
-  }
-
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      handleSearch(val);
-    }
-  };
   return (
     <div className="bg-transparent">
       {loading && <Loading />}
