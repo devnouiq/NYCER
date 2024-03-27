@@ -7,6 +7,8 @@ import { PageFooter } from "./components/PageFooter";
 import { useState } from "react";
 import { SignIn } from "./components/SignIn";
 import { SignUp } from "./components/SignUp";
+import { AdminPage } from "./pages/AdminPage";
+import { IngredientsPage } from "./pages/IngredientsPage";
 
 const App = () => {
   const [toggleSignInOverlay, setToggleSignInOverlay] = useState(false);
@@ -25,6 +27,8 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/products" element={<ProductsPage />} />
+            <Route path="/ingredients" element={<IngredientsPage />} />
+            <Route path="/admin" element={<AdminPage />} />
           </Routes>
           <PageFooter />
           {toggleSignInOverlay && (

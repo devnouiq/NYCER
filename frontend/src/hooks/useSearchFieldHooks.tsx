@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import { AccountContext } from "./Account";
 import { ProductType } from "../types/ProductTypes";
-import { searchApi } from "../services/api/searchApi";
+import { searchApi } from "../services/api/SearchApi";
 
 export const useSearchFieldHooks = (
   openModal: boolean,

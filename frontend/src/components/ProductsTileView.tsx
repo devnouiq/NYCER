@@ -15,11 +15,13 @@ export const TileView: React.FC<ProductView> = ({
         className="h-40 md:h-[180px] w-full object-contain mb-4 rounded-md"
       />
       <div className="text-center">
-        <p className="text-white font-bold mb-2">{product_name}</p>
+        <p className="text-black font-bold mb-2">{product_name}</p>
         <button
           className="bg-black text-white p-2 rounded-xl hover:bg-black focus:outline-none focus:ring focus:border-white"
           onClick={() => {
-            setShowModal(product_id);
+            if (setShowModal) {
+              setShowModal(product_id);
+            }
           }}>
           See details
         </button>

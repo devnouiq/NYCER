@@ -11,5 +11,5 @@ export type ProductView = {
   product_img: string;
   ingredients: IngredientsType[];
   benefits: string[];
-  setShowModal: (productId: number) => void;
+  setShowModal?: (productId: number) => void;
 };

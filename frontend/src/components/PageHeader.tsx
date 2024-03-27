@@ -20,12 +20,12 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
   const navigate = useNavigate();
 
   return (
-    <nav className="bg-transparent p-4 flex flex-col md:flex-row items-center justify-between">
-      <div className="flex items-center mb-4 md:pb-3">
+    <nav className="bg-[#694331] px-4 flex flex-col md:flex-row items-center justify-between">
+      <div className="flex items-center mb-2 md:mt-2">
         <img
           src={logo}
           alt="Logo"
-          className="h-14 md:h-16 cursor-pointer"
+          className="h-14 md:h-14 pt-2 md:pt-0 cursor-pointer"
           onClick={() => navigate("/")}
         />
       </div>
@@ -34,10 +34,12 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
         <button className="text-white" onClick={() => navigate("/products")}>
           Products
         </button>
-        <button className="text-white">Ingredients</button>
+        <button className="text-white" onClick={() => navigate("/ingredients")}>
+          Ingredients
+        </button>
       </div>
 
-      <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
+      <div className="flex flex-col md:flex-row space-y-4 py-4 md:space-y-0 md:space-x-4">
         {currentUser ? (
           <>
             <div className="text-white py-2">

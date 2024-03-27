@@ -3,7 +3,7 @@ import { Search } from "lucide-react";
 import { useSearchFieldHooks } from "../hooks/useSearchFieldHooks";
 import { SearchFieldProps } from "../types/SearchFieldTypes";
 import { Loading } from "./Loading";
-import { TileView } from "./TileView";
+import { TileView } from "./ProductsTileView";
 import { Product } from "./Product";
 import { ProductType } from "../types/ProductTypes";
 
@@ -26,7 +26,7 @@ export const SearchField: React.FC<SearchFieldProps> = ({
   } = useSearchFieldHooks(openModal, setOpenModal);
 
   return (
-    <div className="bg-transparent">
+    <div>
       {loading && <Loading />}
       {searchProduct.length > 0 && (
         <div className="text-white text-4xl md:text-7xl font-bold text-center mt-4 mb-8 md:mt-8">
@@ -57,7 +57,11 @@ export const SearchField: React.FC<SearchFieldProps> = ({
             .map((product: ProductType) => (
               <div
                 key={product._id}
-                className="mt-2 px-2 lg:pl-20 w-full sm:w-1/2 md:w-1/3 transition-opacity duration-500 ease-in-out opacity-100">
+                className={`mt-2 px-2 lg:pl-20 w-full ${
+                  searchProduct.length === 1
+                    ? "sm:w-1/1 md:w-1/2"
+                    : "sm:w-1/2 md:w-1/3"
+                } transition-opacity duration-500 ease-in-out opacity-100`}>
                 <TileView
                   product_id={product._id}
                   setShowModal={setShowModal}
