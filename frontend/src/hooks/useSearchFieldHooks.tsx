@@ -60,7 +60,6 @@ export const useSearchFieldHooks = (
     } else {
       setLoading(true);
       setUserAndKeywords({ user: currentUser, keyword: val });
-      console.log(val);
       searchApi(val)
         .then((response) => {
           setSearchProduct(response.data.results);

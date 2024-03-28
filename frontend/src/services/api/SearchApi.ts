@@ -9,3 +9,12 @@ export const searchApi = (keyword: string) => {
     },
   });
 };
+
+
+export const searchByIngredientApi = (keyword: string) => {
+  return axios.get(`${BASE_URL}/searchbyingredient`, {
+    params: {
+      keyword: keyword,
+    },
+  });
+};

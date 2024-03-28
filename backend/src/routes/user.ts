@@ -38,6 +38,36 @@ router.get("/search", async (req: Request, res: Response) => {
     }
 })
 
+
+router.get("/searchbyingredient", async (req: Request, res: Response) => {
+    const keyword: string = req.query.keyword as string;
+
+    if (!keyword) {
+        return res.status(400).json({ message: "Keyword is required" });
+    }
+
+    try {
+        const results = await PRODUCT.find(
+        {
+            "ingredients.ingredient_name": { $regex: keyword, $options: "i" }
+        },
+        {
+            brand_name: 1,
+            product_name: 1,
+            product_img: 1
+        }
+        ).limit(8);
+
+        if (results.length === 0) {
+            return res.status(404).json({ message: "No matching products found" });
+        }
+
+        res.json({ message: "Search results", results: results });
+    } catch (error) {
+        res.status(500).json({ message: "Internal server error" });
+    }
+})
+
 router.get("/search/:productid", async (req: Request, res: Response) => {
     try {
         const singleProductId: string = req.params.productid;

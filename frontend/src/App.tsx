@@ -9,6 +9,7 @@ import { SignIn } from "./components/SignIn";
 import { SignUp } from "./components/SignUp";
 import { AdminPage } from "./pages/AdminPage";
 import { IngredientsPage } from "./pages/IngredientsPage";
+import { SingleProductPage } from "./pages/SingleProductPage";
 
 const App = () => {
   const [toggleSignInOverlay, setToggleSignInOverlay] = useState(false);
@@ -29,6 +30,18 @@ const App = () => {
             <Route path="/products" element={<ProductsPage />} />
             <Route path="/ingredients" element={<IngredientsPage />} />
             <Route path="/admin" element={<AdminPage />} />
+            <Route
+              path="/products/:productId"
+              element={<SingleProductPage />}
+            />
+            {/* <Route
+              path="/products/:productId"
+              loader={async ({ params }) => {
+                const productId = Number(params.productId);
+                return loadProduct(productId);
+              }}
+              element={<SingleProductPage />}
+            /> */}
           </Routes>
           <PageFooter />
           {toggleSignInOverlay && (

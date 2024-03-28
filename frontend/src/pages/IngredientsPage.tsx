@@ -67,7 +67,9 @@ export const IngredientsPage: React.FC = () => {
                   expandedIngredient === ingredient._id ? "block" : "hidden"
                 }`}>
                 <Ingredient ingredient_id={ingredient._id} />
-                <IngredientProducts />
+                {expandedIngredient === ingredient._id && (
+                  <IngredientProducts val={ingredient.ingredient_name} />
+                )}
               </div>
             </div>
           ))}
