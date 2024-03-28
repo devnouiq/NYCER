@@ -65,6 +65,29 @@ const productSchema = new Schema({
 
 const PRODUCT = model<ProductType>("Product1", productSchema, 'product1');
 
+interface KeywordType {
+  keyword: string;
+  count: number;
+}
+
+interface UserDocument{
+  username: string;
+  keywords: KeywordType[];
+}
+
+const keywordSchema = new Schema<KeywordType>({
+  keyword: { type: String, required: true },
+  count: { type: Number, required: true }
+});
+
+export const userSchema = new Schema<UserDocument>({
+  username: { type: String, required: true, unique: true },
+  keywords: [keywordSchema]
+});
+
+const USER = model<UserDocument>('User', userSchema, "userdata");
+
 export {
-    PRODUCT
+    PRODUCT,
+    USER
 }

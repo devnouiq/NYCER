@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import { AccountContext } from "./Account";
 import { ProductType } from "../types/ProductTypes";
 import { searchApi } from "../services/api/SearchApi";
+import { createUser } from "../services/api/UserDataApi";
 
 export const useSearchFieldHooks = (
   openModal: boolean,
@@ -14,11 +15,32 @@ export const useSearchFieldHooks = (
   const { getSession } = useContext(AccountContext);
   const [currentUser, setCurrentUser] = useState<void>();
   const [loading, setLoading] = useState<boolean>(false);
+  const [userAndKeywords, setUserAndKeywords] = useState<{
+    user: any;
+    keyword: string;
+  }>({ user: null, keyword: "" });
+
+  useEffect(() => {
+    if (userAndKeywords.keyword.length > 0) {
+      const createUserWithKeywords = async () => {
+        try {
+          const user = await createUser(
+            userAndKeywords.user.idToken.payload.email.split("@")[0],
+            userAndKeywords.keyword.toLowerCase()
+          );
+          console.log(user);
+        } catch (error) {
+          console.error("Error creating user:", error);
+        }
+      };
+
+      createUserWithKeywords();
+    }
+  }, [userAndKeywords.keyword]);
 
   useEffect(() => {
     getSession()
       .then((session) => {
-        console.log("Session: ", session);
         setCurrentUser(session);
       })
       .catch((err) => {
@@ -34,8 +56,11 @@ export const useSearchFieldHooks = (
   const handleSearch = (val: string) => {
     if (!currentUser) {
       setOpenModal(true);
+      // location.reload(); // TODO: fix modal display even after login
     } else {
       setLoading(true);
+      setUserAndKeywords({ user: currentUser, keyword: val });
+      console.log(val);
       searchApi(val)
         .then((response) => {
           setSearchProduct(response.data.results);

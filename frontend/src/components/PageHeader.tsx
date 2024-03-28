@@ -25,7 +25,7 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
         <img
           src={logo}
           alt="Logo"
-          className="h-14 md:h-14 pt-2 md:pt-0 cursor-pointer"
+          className="h-14 md:h-14 pt-2 md:pt-0 md:mr-24 cursor-pointer"
           onClick={() => navigate("/")}
         />
       </div>

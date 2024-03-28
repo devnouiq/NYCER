@@ -14,7 +14,6 @@ export const usePageHeaderHooks = ({
   useEffect(() => {
     getSession()
       .then((session) => {
-        console.log("Session: ", session);
         setCurrentUser(session);
       })
       .catch((err: Error) => {

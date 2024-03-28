@@ -1,5 +1,5 @@
 import express, { Request, Response } from "express";
-import { PRODUCT, ProductType } from "../db/db"
+import { PRODUCT, ProductType, USER } from "../db/db"
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -112,7 +112,6 @@ router.get("/ingredients/:ingredientsId", async (req: Request, res: Response) =>
     }
 
     const ingredient = product.ingredients[0];
-    console.log(ingredient)
 
     res.json({ ingredient });
   } catch (error) {
@@ -122,6 +121,51 @@ router.get("/ingredients/:ingredientsId", async (req: Request, res: Response) =>
 });
 
 
+router.post('/usersdata', async (req: Request, res: Response) => {
+  try {
+    const { username, keyword } = req.body;
+
+    const user = await USER.findOne({ username });
+
+    if (!user) {
+      const newUser = new USER({
+        username,
+        keywords: [{ keyword, count: 1 }],
+      });
+
+      const savedUser = await newUser.save();
+      return res.status(201).json(savedUser);
+    }
+
+    const existingKeyword = user.keywords.find(kw => kw.keyword === keyword);
+
+    if (existingKeyword) {
+      existingKeyword.count += 1;
+    } else {
+      user.keywords.push({ keyword, count: 1 });
+    }
+
+    const savedUser = await user.save();
+
+    res.status(200).json(savedUser);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Something went wrong' });
+  }
+});
+
+
+router.get('/allusersdata', async (req: Request, res: Response) => {
+  try {
+
+    const users = await USER.find();
+
+    res.status(200).json(users);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Something went wrong' });
+  }
+});
 
 
 

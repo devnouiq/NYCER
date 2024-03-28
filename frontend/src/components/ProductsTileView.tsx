@@ -8,7 +8,7 @@ export const TileView: React.FC<ProductView> = ({
   product_img,
 }) => {
   return (
-    <div className="w-full md:w-64 border border-solid border-gray-300 p-4 shadow-md rounded-md h-auto md:h-80 overflow-hidden backdrop-blur-lg">
+    <div className="w-full md:w-64 border border-solid border-gray-300 p-4 shadow-md rounded-md h-auto md:h-[340px] overflow-hidden backdrop-blur-lg">
       <img
         src={product_img}
         alt={`Product: ${product_name}`}
@@ -16,6 +16,8 @@ export const TileView: React.FC<ProductView> = ({
       />
       <div className="text-center">
         <p className="text-black font-bold mb-2">{product_name}</p>
+        {/* TODO: change the text color (make sure it is visible in both pages =
+        Products & Home) */}
         <button
           className="bg-black text-white p-2 rounded-xl hover:bg-black focus:outline-none focus:ring focus:border-white"
           onClick={() => {

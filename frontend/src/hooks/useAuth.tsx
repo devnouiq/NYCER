@@ -6,7 +6,7 @@ interface AuthError extends Error {
   message: string;
 }
 
-const useAuth = () => {
+export const useAuth = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { authenticate } = useContext(AccountContext);
@@ -42,5 +42,3 @@ const useAuth = () => {
     handleSubmit,
   };
 };
-
-export default useAuth;

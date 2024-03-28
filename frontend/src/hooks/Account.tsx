@@ -52,7 +52,6 @@ const Account = (props: any) => {
 
       User.authenticateUser(authDetails, {
         onSuccess: (data) => {
-          console.log(data);
           setCurrentUser(data);
           resolve(data);
         },

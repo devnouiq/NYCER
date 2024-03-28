@@ -2,7 +2,7 @@ import { FormEvent, useState } from "react";
 import UserPool from "./UserPool";
 import { CognitoUser } from "amazon-cognito-identity-js";
 
-const useSignUpForm = (closeModal: (val: boolean) => void) => {
+export const useSignUpForm = (closeModal: (val: boolean) => void) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [code, setCode] = useState("");
@@ -74,5 +74,3 @@ const useSignUpForm = (closeModal: (val: boolean) => void) => {
     confirmationHandler,
   };
 };
-
-export default useSignUpForm;

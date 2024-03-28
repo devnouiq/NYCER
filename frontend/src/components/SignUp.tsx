@@ -1,5 +1,5 @@
 import { X } from "lucide-react";
-import useSignUpForm from "../hooks/useSignUpForm";
+import { useSignUpForm } from "../hooks/useSignUpForm";
 
 export const SignUp = (props: { closeModal: (val: boolean) => void }) => {
   const {
