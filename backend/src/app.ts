@@ -11,12 +11,10 @@ const numCPUs = os.cpus().length;
 
 if (cluster.isPrimary) {
   console.log(`Master ${process.pid} is running`);
-
-  // Fork workers
-  cluster.fork();
-//   for (let i = 0; i < numCPUs-3; i++) {
-//     cluster.fork();
-//   }
+  
+  for (let i = 0; i < numCPUs-2; i++) {
+    cluster.fork();
+  }
 
   cluster.on('exit', (worker, code, signal) => {
     console.log(`Worker ${worker.process.pid} died`);
@@ -25,9 +23,8 @@ if (cluster.isPrimary) {
   const app: Express = express();
   const port: number | string = process.env.PORT || 3000;
 
-  // Custom CORS middleware function
   const corsOptions = {
-    origin: ['http://localhost:5173'],
+    origin: ['https://www.nycerbeautysearch.com'],
   };
 
   app.use(express.json());
@@ -41,7 +38,9 @@ if (cluster.isPrimary) {
 
   (async () => {
     try {
-      await mongoose.connect(process.env.MONGODB_URI!);
+      await mongoose.connect(process.env.MONGODB_URI!,{
+            tlsCAFile: `global-bundle.pem`,
+        });
     } catch (err: any) {
       console.log('error: ' + err);
     }
