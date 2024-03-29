@@ -3,14 +3,20 @@
 @tailwind utilities;
 
 ::-webkit-scrollbar {
+    @apply bg-[#E1CEC3] rounded-lg;
+}
+::-webkit-scrollbar:horizontal {
+    height: 10px;
+}
+
+ ::-webkit-scrollbar-thumb:horizontal {
+    @apply bg-[#AF7153] rounded-lg border;
+}
+
+::-webkit-scrollbar:vertical {
     width: 12px;
 }
 
-::-webkit-scrollbar-thumb {
-    background-color: #AF7153;
-    border-radius: 6px;
-}
-
-::-webkit-scrollbar-track {
-    background-color: #E1CEC3;
+::-webkit-scrollbar-thumb:vertical {
+    @apply bg-[#AF7153;] rounded-lg;
 }
