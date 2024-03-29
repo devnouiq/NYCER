@@ -87,7 +87,7 @@ router.get("/search/:productid", async (req: Request, res: Response) => {
 router.get("/products", async (req: Request, res: Response) => {
     try {
         const randomProducts: ProductType[] = await PRODUCT.aggregate([
-            { $sample: { size: 6 } },
+            { $sample: { size: 8 } },
             {
                 $project: {
                     brand_name: 1,
