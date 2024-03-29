@@ -108,13 +108,15 @@ router.get("/products", async (req: Request, res: Response) => {
 router.get("/ingredients", async (req: Request, res: Response) => {
     try {
         const randomIngredients: ProductType[] = await PRODUCT.aggregate([
-            { $sample: { size: 1 } },
+            { $sample: { size: 2 } },
             { $unwind: "$ingredients" },
-            { $sample: { size: 12 } },
+            { $sample: { size: 10 } },
             {
                 $project: {
                     "ingredient_name": "$ingredients.ingredient_name",
                     "what_it_does": "$ingredients.what_it_does",
+                    "community_rating": "$ingredients.community_rating",
+                    "description": "$ingredients.description",
                     "_id": "$ingredients._id"
                 }
             }
