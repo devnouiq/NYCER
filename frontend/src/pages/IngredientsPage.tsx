@@ -43,34 +43,30 @@ export const IngredientsPage: React.FC = () => {
           {ingredients.map((ingredient) => (
             <div
               key={ingredient._id}
-              className="bg-white rounded-lg p-4 shadow-md flex flex-col">
+              className="bg-white rounded-lg shadow-md mb-4">
               <div
-                className="flex items-center"
+                className="p-4 cursor-pointer flex items-center justify-between"
                 onClick={() => toggleIngredient(ingredient._id)}>
-                <div className="transition-transform duration-300">
-                  {expandedIngredient === ingredient._id ? (
-                    <ChevronUp className="mr-2" />
-                  ) : (
-                    <ChevronDown className="mr-2" />
-                  )}
-                </div>
                 <h2 className="text-lg font-semibold">
                   {ingredient.ingredient_name}
                 </h2>
+                {expandedIngredient === ingredient._id ? (
+                  <ChevronUp className="w-6 h-6 text-gray-600" />
+                ) : (
+                  <ChevronDown className="w-6 h-6 text-gray-600" />
+                )}
               </div>
-              <p className="text-base text-black mb-2 font-bold">
-                what it does :{" "}
-                <span className="text-sm font-normal">
-                  {ingredient.what_it_does}
-                </span>
-              </p>
               <div
-                className={`mt-4 ${
+                className={`${
                   expandedIngredient === ingredient._id ? "block" : "hidden"
-                }`}>
-                <div
-                  key={ingredient._id}
-                  className="bg-white rounded-lg p-4 shadow-md ">
+                } p-4 border-t border-gray-200`}>
+                <p className="text-base text-black mb-2 font-bold">
+                  what it does :{" "}
+                  <span className="text-sm font-normal">
+                    {ingredient.what_it_does}
+                  </span>
+                </p>
+                <div className="bg-white rounded-lg p-4 shadow-md ">
                   <p className="text-sm mt-2">
                     Community rating: {ingredient.community_rating}
                   </p>
