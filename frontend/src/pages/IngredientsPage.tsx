@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { RandomIngredients } from "../services/api/RandomIngredientsApi";
 import { Loading } from "../components/Loading";
 import { IngredientsType } from "../types/ProductTypes";
-import { Ingredient } from "../components/Ingredient";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { IngredientProducts } from "../components/IngredientProducts";
 
@@ -13,8 +12,6 @@ export const IngredientsPage: React.FC = () => {
   useEffect(() => {
     const fetchIngredients = async () => {
       try {
-        await new Promise((resolve) => setTimeout(resolve, 500));
-
         const response = await RandomIngredients();
         setIngredients(response);
         setLoading(false);
@@ -61,12 +58,26 @@ export const IngredientsPage: React.FC = () => {
                   {ingredient.ingredient_name}
                 </h2>
               </div>
-              <p className="text-sm mt-2">{ingredient.what_it_does}</p>
+              <p className="text-base text-black mb-2 font-bold">
+                what it does :{" "}
+                <span className="text-sm font-normal">
+                  {ingredient.what_it_does}
+                </span>
+              </p>
               <div
                 className={`mt-4 ${
                   expandedIngredient === ingredient._id ? "block" : "hidden"
                 }`}>
-                <Ingredient ingredient_id={ingredient._id} />
+                <div
+                  key={ingredient._id}
+                  className="bg-white rounded-lg p-4 shadow-md ">
+                  <p className="text-sm mt-2">
+                    Community rating: {ingredient.community_rating}
+                  </p>
+                  <p className="text-sm mt-2">
+                    Description: {ingredient.description}
+                  </p>
+                </div>
                 <IngredientProducts val={ingredient.ingredient_name} />
               </div>
             </div>

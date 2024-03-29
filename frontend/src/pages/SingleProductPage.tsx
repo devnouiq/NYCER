@@ -3,7 +3,6 @@ import { getProductDetails } from "../services/api/SingleProduct";
 import { ProductType } from "../types/ProductTypes";
 import { useParams } from "react-router-dom";
 import { ChevronDown, ChevronUp } from "lucide-react";
-import { Ingredient } from "../components/Ingredient";
 import { IngredientProducts } from "../components/IngredientProducts";
 import { Loading } from "../components/Loading";
 
@@ -137,13 +136,20 @@ export const SingleProductPage = () => {
                             ? "block"
                             : "hidden"
                         } p-4 border-t border-gray-200`}>
-                        <p className="text-lg text-black mb-2 font-bold">
-                          what_it_does :{" "}
+                        <p className="text-base text-black mb-2 font-bold">
+                          what it does :{" "}
                           <span className="text-sm font-normal">
                             {ingredient.what_it_does}
                           </span>
                         </p>
-                        <Ingredient ingredient_id={ingredient._id} />
+                        <div className="bg-white rounded-lg p-4 shadow-md ">
+                          <p className="text-sm mt-2">
+                            Community rating: {ingredient.community_rating}
+                          </p>
+                          <p className="text-sm mt-2">
+                            Description: {ingredient.description}
+                          </p>
+                        </div>
                         <IngredientProducts val={ingredient.ingredient_name} />
                       </div>
                     </div>
