@@ -39,7 +39,7 @@ export const IngredientProducts: React.FC<{ val?: string }> = ({ val }) => {
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 md:gap-4 lg:gap-56 pt-2 pb-4">
             {searchProduct &&
-              searchProduct.map((product) => (
+              searchProduct.slice(0, 5).map((product) => (
                 <div
                   key={product._id}
                   onClick={() => navigate(`/products/${product._id}`)}

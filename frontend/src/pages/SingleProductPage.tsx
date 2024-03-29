@@ -137,8 +137,11 @@ export const SingleProductPage = () => {
                             ? "block"
                             : "hidden"
                         } p-4 border-t border-gray-200`}>
-                        <p className="text-sm text-gray-600 mb-2">
-                          {ingredient.what_it_does}
+                        <p className="text-lg text-black mb-2 font-bold">
+                          what_it_does :{" "}
+                          <span className="text-sm font-normal">
+                            {ingredient.what_it_does}
+                          </span>
                         </p>
                         <Ingredient ingredient_id={ingredient._id} />
                         <IngredientProducts val={ingredient.ingredient_name} />

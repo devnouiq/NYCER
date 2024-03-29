@@ -13,7 +13,7 @@ export const Ingredient: React.FC<{ ingredient_id?: number }> = ({
     const fetchIngredient = async () => {
       try {
         if (ingredient_id) {
-          await new Promise((resolve) => setTimeout(resolve, 100));
+          console.log("ingredient_id :", ingredient_id);
           const response = await getIngredientDetails(ingredient_id);
           setIngredient(response);
           setLoading(false);

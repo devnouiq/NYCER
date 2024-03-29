@@ -12,9 +12,6 @@ export const ProductsPage: React.FC = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        // Simulate a delay of 1 second before fetching products
-        await new Promise((resolve) => setTimeout(resolve, 500));
-
         const response = await RandomProductsApi();
         setProducts(response);
         setLoading(false);
