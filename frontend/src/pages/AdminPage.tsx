@@ -76,23 +76,22 @@ export const AdminPage: React.FC = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto py-6">
-      <div className="text-center mb-6">
-        <div className="flex items-center justify-center bg-blue-500 text-white rounded-lg p-4">
+    <div className="max-w-4xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+      <div className="text-center mb-8">
+        <div className="flex items-center justify-center bg-[#AF7153] text-white rounded-lg p-4">
           <UserIcon className="w-6 h-6 mr-2" />
-          <p className="text-lg font-semibold">
+          <p className="text-xl font-semibold">
             Total Users: {userData!.length}
           </p>
         </div>
       </div>
-
       <div className="overflow-x-auto shadow-md rounded-lg">
         <table className="w-full table-auto">
-          <thead className="bg-gray-100">
+          <thead className="bg-indigo-100">
             <tr>
-              <th className="px-4 py-2 border-b border-gray-200">Users</th>
-              <th className="px-4 py-2 border-b border-gray-200">Keywords</th>
-              <th className="px-4 py-2 border-b border-gray-200">
+              <th className="px-6 py-3 text-left text-indigo-900">Users</th>
+              <th className="px-6 py-3 text-left text-indigo-900">Keywords</th>
+              <th className="px-6 py-3 text-left text-indigo-900">
                 Top 3 Keywords
               </th>
             </tr>
@@ -100,15 +99,17 @@ export const AdminPage: React.FC = () => {
           <tbody>
             {userData!.map((user: any) => (
               <tr key={user._id} className="even:bg-gray-50 hover:bg-gray-100">
-                <td className="flex items-center px-4 py-2 border-b border-gray-200">
+                <td className="flex items-center px-6 py-4 border-b border-gray-200">
+                  {/* Add user avatar or icon */}
+                  <div className="w-8 h-8 rounded-full bg-gray-300 mr-2"></div>
                   {user.username}
                 </td>
-                <td className="px-4 py-2 border-b border-gray-200">
+                <td className="px-6 py-4 border-b border-gray-200">
                   {user.keywords
                     .map((keyword: { keyword: string }) => keyword.keyword)
                     .join(", ")}
                 </td>
-                <td className="px-4 py-2 border-b border-gray-200">
+                <td className="px-6 py-4 border-b border-gray-200">
                   {getTop3Keywords(user.keywords)}
                 </td>
               </tr>

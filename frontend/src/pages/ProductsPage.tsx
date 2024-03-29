@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { RandomProductsApi } from "../services/api/RandomProductsApi";
-import { TileView } from "../components/ProductsTileView";
 import { ProductType } from "../types/ProductTypes";
-import { Product } from "../components/Product";
 import { Loading } from "../components/Loading";
+import { useNavigate } from "react-router-dom";
 
 export const ProductsPage: React.FC = () => {
-  const [showModal, setShowModal] = useState<number | null>(null);
   const [products, setProducts] = useState<ProductType[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -33,25 +32,24 @@ export const ProductsPage: React.FC = () => {
       {loading ? (
         <Loading />
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 my-4 mx-2 md:mx-4">
-          {products.map((product) => (
-            <div
-              key={product._id}
-              className="mt-2 px-2 lg:pl-20 w-full sm:w-1/2 md:w-1/3 transition-opacity duration-500 ease-in-out opacity-100">
-              <TileView
-                product_id={product._id}
-                setShowModal={setShowModal}
-                {...product}
-              />
-            </div>
-          ))}
-          {showModal !== null && (
-            <Product
-              visible={true}
-              setShowModal={setShowModal}
-              product_id={showModal}
-            />
-          )}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 my-10 mx-11 md:ml-24">
+          {products &&
+            products.map((product) => (
+              <div
+                key={product._id}
+                onClick={() => navigate(`/products/${product._id}`)}
+                className="bg-[#E1CEC3] rounded-lg shadow-md p-4 lg:w-52 hover:bg-gray-200 transition duration-300 cursor-pointer">
+                <img
+                  src={product.product_img}
+                  alt={product.product_name}
+                  className="h-40 sm:h-32 lg:h-24 w-full object-contain mb-4 rounded-md"
+                />
+                <h2 className="text-lg font-semibold mb-2">
+                  {product.product_name}
+                </h2>
+                <p className="text-gray-600">{product.brand_name}</p>
+              </div>
+            ))}
         </div>
       )}
     </div>

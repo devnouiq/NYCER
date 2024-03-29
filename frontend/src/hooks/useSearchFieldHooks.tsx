@@ -24,11 +24,10 @@ export const useSearchFieldHooks = (
     if (userAndKeywords.keyword.length > 0) {
       const createUserWithKeywords = async () => {
         try {
-          const user = await createUser(
+          await createUser(
             userAndKeywords.user.idToken.payload.email.split("@")[0],
             userAndKeywords.keyword.toLowerCase()
           );
-          console.log(user);
         } catch (error) {
           console.error("Error creating user:", error);
         }

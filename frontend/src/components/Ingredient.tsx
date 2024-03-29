@@ -32,7 +32,7 @@ export const Ingredient: React.FC<{ ingredient_id?: number }> = ({
       {loading ? (
         <Loading />
       ) : (
-        <div className="">
+        <div className="mb-2">
           {ingredient && (
             <div
               key={ingredient._id}
