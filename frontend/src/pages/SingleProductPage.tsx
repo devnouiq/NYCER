@@ -56,62 +56,76 @@ export const SingleProductPage = () => {
                       className="rounded-lg shadow-md max-h-96"
                     />
                   </div>
-                  <div className="mb-6">
-                    <p className="text-gray-600 mb-2">
-                      <span className="font-semibold">Brand:</span>{" "}
+                  <div className="mb-8">
+                    <p className="text-gray-600 mb-4">
+                      <span className="font-semibold text-lg">Brand:</span>{" "}
                       {product.brand_name}
                     </p>
-                    <p className="text-gray-600 mb-2">
-                      <span className="font-semibold">Product Type:</span>{" "}
+                    <p className="text-gray-600 mb-4">
+                      <span className="font-semibold text-lg">
+                        Product Type:
+                      </span>{" "}
                       {product.product_type}
                     </p>
-                    <p className="text-gray-600 mb-2">
-                      <span className="font-semibold">
+                    <p className="text-gray-600 mb-4">
+                      <span className="font-semibold text-lg">
                         Notable Ingredients:
                       </span>{" "}
                       {product.notable_ingredients.join(", ")}
                     </p>
-                    <p className="text-gray-600 mb-2">
-                      <span className="font-semibold">Benefits:</span>{" "}
+                    <p className="text-gray-600 mb-4">
+                      <span className="font-semibold text-lg">Benefits:</span>{" "}
                       {product.benefits.join(", ")}
                     </p>
                   </div>
-                  <div className="grid grid-cols-2 gap-4 mb-6">
-                    <div>
-                      <p className="text-gray-600 mb-2">
-                        <span className="font-semibold">What it is:</span>{" "}
-                        {product.what_it_is}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-gray-600 mb-2">
-                        <span className="font-semibold">Suited for:</span>{" "}
+                  <div className="flex flex-col space-y-4">
+                    <div className="flex flex-col md:flex-row items-start">
+                      <span className="font-semibold text-lg text-gray-800 mr-2">
+                        Suited for:
+                      </span>
+                      <p className="text-gray-600 text-justify">
                         {product.suited_for}
                       </p>
-                      <p className="text-gray-600 mb-2">
-                        <span className="font-semibold">Free From:</span>{" "}
+                    </div>
+                    <div className="flex flex-col md:flex-row items-start">
+                      <span className="font-semibold text-lg text-gray-800 mr-2">
+                        Free From:
+                      </span>
+                      <p className="text-gray-600 text-justify">
                         {product.free_from}
                       </p>
-                      <p className="text-gray-600 mb-2">
-                        <span className="font-semibold">Fun Facts:</span>{" "}
+                    </div>
+                    <div className="flex flex-col md:flex-row items-start">
+                      <span className="font-semibold text-lg text-gray-800 mr-2">
+                        Fun Facts:
+                      </span>
+                      <p className="text-gray-600 text-justify">
                         {product.fun_facts}
                       </p>
                     </div>
                   </div>
-                  <h2 className="text-xl font-semibold mb-4">Product Info:</h2>
-                  <ul className="list-disc list-inside mb-6">
-                    {product.product_info.map((info) => (
-                      <li key={info.key} className="text-gray-600 mb-2">
-                        <span className="font-semibold">{info.key}:</span>{" "}
-                        {info.status}
-                      </li>
-                    ))}
-                  </ul>
-                  <p className="text-gray-600">
-                    <span className="font-semibold">When to Use:</span>{" "}
+                  <div className="my-6">
+                    <h2 className="text-xl font-semibold mb-4">
+                      Product Info:
+                    </h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-2">
+                      {product.product_info.map((info) => (
+                        <div key={info.key} className="flex items-center">
+                          <span className="font-semibold mr-2">
+                            {info.key}:
+                          </span>
+                          <span className="text-gray-600">{info.status}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <p className="text-gray-600 text-justify">
+                    <span className="font-semibold ">When to Use:</span>{" "}
                     {product.when_to_use}
                   </p>
                 </div>
+
                 <div>
                   <h2 className="text-xl font-semibold mb-4">Ingredients:</h2>
                   {product.ingredients.map((ingredient) => (

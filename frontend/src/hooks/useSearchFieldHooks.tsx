@@ -52,10 +52,10 @@ export const useSearchFieldHooks = (
     setDisplayedProducts(displayedProducts + 3);
   };
 
+  // TODO: fix modal display even after login
   const handleSearch = (val: string) => {
     if (!currentUser) {
       setOpenModal(true);
-      // location.reload(); // TODO: fix modal display even after login
     } else {
       setLoading(true);
       setUserAndKeywords({ user: currentUser, keyword: val });
