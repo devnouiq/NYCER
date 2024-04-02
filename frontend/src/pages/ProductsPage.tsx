@@ -35,8 +35,8 @@ export const ProductsPage: React.FC = () => {
       {loading ? (
         <Loading />
       ) : (
-        <div className="grid grid-cols-10">
-          <div className="grid grid-cols-1 col-span-9 sm:grid-cols-2 md:grid-cols-4 gap-4 my-10 mx-11 md:ml-24">
+        <div className="grid grid-rows-1 md:grid-cols-10">
+          <div className="grid grid-cols-1 md:col-span-9 sm:grid-cols-2 md:grid-cols-4 gap-4 my-10 mx-11 md:ml-24">
             {products &&
               products.map((product) => (
                 <div
@@ -59,7 +59,7 @@ export const ProductsPage: React.FC = () => {
             <div className="flex items-center justify-center">
               <button
                 onClick={handleNextPage}
-                className="bg-[#AF7153] text-white px-2 py-2 rounded-full">
+                className="bg-[#AF7153] text-white px-2 mb-6 md:mb-0 py-2 rounded-full">
                 <ArrowRightIcon />
               </button>
             </div>
