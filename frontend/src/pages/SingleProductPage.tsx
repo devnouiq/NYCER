@@ -156,14 +156,12 @@ export const SingleProductPage = () => {
                             {ingredient.what_it_does}
                           </span>
                         </p>
-                        <div className="bg-white rounded-lg p-4 shadow-md ">
-                          <p className="text-sm mt-2">
-                            Community rating: {ingredient.community_rating}
-                          </p>
-                          <p className="text-sm mt-2">
-                            Description: {ingredient.description}
-                          </p>
-                        </div>
+                        <p className="text-base text-black mt-2 font-bold text-justify">
+                          Description:{" "}
+                          <span className="text-sm font-normal">
+                            {ingredient.description}
+                          </span>
+                        </p>
                         <IngredientProducts val={ingredient.ingredient_name} />
                       </div>
                     </div>

@@ -114,9 +114,6 @@ export const Product: React.FC<ModalType> = ({
                     )}
 
                   <p className="mt-2 text-gray-600">
-                    Community Rating: {ingredient.community_rating}
-                  </p>
-                  <p className="mt-2 text-gray-600">
                     What It Does: {ingredient.what_it_does}
                   </p>
                 </div>

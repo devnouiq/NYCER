@@ -38,9 +38,6 @@ export const Ingredient: React.FC<{ ingredient_id?: number }> = ({
               key={ingredient._id}
               className="bg-white rounded-lg p-4 shadow-md ">
               <p className="text-sm mt-2">
-                Community rating: {ingredient.community_rating}
-              </p>
-              <p className="text-sm mt-2">
                 Description: {ingredient.description}
               </p>
             </div>
