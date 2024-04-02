@@ -56,7 +56,7 @@ router.get("/searchbyingredient", async (req: Request, res: Response) => {
             product_name: 1,
             product_img: 1
         }
-        ).limit(8);
+        ).limit(5);
 
         if (results.length === 0) {
             return res.status(404).json({ message: "No matching products found" });
@@ -85,16 +85,20 @@ router.get("/search/:productid", async (req: Request, res: Response) => {
 
 
 router.get("/products", async (req: Request, res: Response) => {
+    const { page = 1, limit = 8 }: any = req.query;
+    const skip = (page - 1) * limit;
+
     try {
-        const randomProducts: ProductType[] = await PRODUCT.aggregate([
-            { $sample: { size: 8 } },
+        const randomProducts = await PRODUCT.aggregate([
             {
                 $project: {
                     brand_name: 1,
                     product_name: 1,
                     product_img: 1
                 }
-            }
+            },
+            { $skip: skip },
+            { $sample: { size: parseInt(limit) } }
         ]);
 
         res.json({ randomProducts });
@@ -105,29 +109,31 @@ router.get("/products", async (req: Request, res: Response) => {
 });
 
 
-router.get("/ingredients", async (req: Request, res: Response) => {
-    try {
-        const randomIngredients: ProductType[] = await PRODUCT.aggregate([
-            { $sample: { size: 2 } },
-            { $unwind: "$ingredients" },
-            { $sample: { size: 10 } },
-            {
-                $project: {
-                    "ingredient_name": "$ingredients.ingredient_name",
-                    "what_it_does": "$ingredients.what_it_does",
-                    "community_rating": "$ingredients.community_rating",
-                    "description": "$ingredients.description",
-                    "_id": "$ingredients._id"
-                }
-            }
-        ]);
+router.get("/ingredients", async (req, res) => {
+  const { page = 1, limit = 10 }: any= req.query;
+  const skip = (page - 1) * limit;
+  try {
+    const ingredients = await PRODUCT.aggregate([
+      { $unwind: "$ingredients" },
+      {
+        $project: {
+          "ingredient_name": "$ingredients.ingredient_name",
+          "what_it_does": "$ingredients.what_it_does",
+          "description": "$ingredients.description",
+          "_id": "$ingredients._id"
+        }
+      },
+      { $skip: skip },
+      { $sample: { size: parseInt(limit) } }
+    ]);
 
-        res.json({ randomIngredients });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: "Internal Server Error" });
-    }
+    res.json({ ingredients });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
 });
+
 
 
 router.get("/ingredients/:ingredientsId", async (req: Request, res: Response) => {
