@@ -27,6 +27,7 @@ export const IngredientsPage: React.FC = () => {
   }, [page]);
 
   const handleNextPage = () => {
+    setLoading(true);
     setPage(page + 1);
   };
 
@@ -42,21 +43,17 @@ export const IngredientsPage: React.FC = () => {
 
   return (
     <div>
+      <div className="flex items-center justify-center my-4 mx-2">
+        <button
+          onClick={handleNextPage}
+          className="bg-[#AF7153] text-white px-4 py-2 rounded-md">
+          <RefreshCcw />
+        </button>
+      </div>
       {loading ? (
         <Loading />
       ) : (
         <div className="grid grid-cols-1 gap-4 my-4 mx-2 md:mx-10">
-          {!loading && (
-            <div
-              className="flex items-center justify-center transition-opacity duration-500 opacity-0"
-              style={{ opacity: 1 }}>
-              <button
-                onClick={handleNextPage}
-                className="bg-[#AF7153] text-white px-4 py-2 rounded-md">
-                <RefreshCcw />
-              </button>
-            </div>
-          )}
           {ingredients.map((ingredient) => (
             <div
               key={ingredient._id}

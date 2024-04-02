@@ -35,8 +35,8 @@ export const ProductsPage: React.FC = () => {
       {loading ? (
         <Loading />
       ) : (
-        <div className="grid grid-cols-8">
-          <div className="grid grid-cols-1 col-span-7 sm:grid-cols-2 md:grid-cols-4 gap-4 my-10 mx-11 md:ml-24">
+        <div className="grid grid-cols-10">
+          <div className="grid grid-cols-1 col-span-9 sm:grid-cols-2 md:grid-cols-4 gap-4 my-10 mx-11 md:ml-24">
             {products &&
               products.map((product) => (
                 <div
