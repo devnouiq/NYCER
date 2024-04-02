@@ -3,7 +3,7 @@ import { RandomProductsApi } from "../services/api/RandomProductsApi";
 import { ProductType } from "../types/ProductTypes";
 import { Loading } from "../components/Loading";
 import { useNavigate } from "react-router-dom";
-import { ArrowRightIcon, Circle } from "lucide-react";
+import { ArrowRightIcon } from "lucide-react";
 
 export const ProductsPage: React.FC = () => {
   const [products, setProducts] = useState<ProductType[]>([]);
