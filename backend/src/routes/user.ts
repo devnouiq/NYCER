@@ -1,5 +1,5 @@
 import express, { Request, Response } from "express";
-import { PRODUCT, ProductType, USER } from "../db/db"
+import { EMAIL, PRODUCT, ProductType, USER } from "../db/db"
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -110,7 +110,7 @@ router.get("/products", async (req: Request, res: Response) => {
 
 
 router.get("/ingredients", async (req, res) => {
-  const { page = 1, limit = 10 }: any= req.query;
+  const { page = 1, limit = 8 }: any= req.query;
   const skip = (page - 1) * limit;
   try {
     const ingredients = await PRODUCT.aggregate([
@@ -205,6 +205,38 @@ router.get('/allusersdata', async (req: Request, res: Response) => {
   }
 });
 
+
+router.post('/emails', async (req: Request, res: Response) => {
+  try {
+    const { email } = req.body;
+
+    const existingEmail = await EMAIL.findOne({ email });
+
+    if (existingEmail) {
+      return res.status(400).json({ error: 'Email already exists' });
+    }
+
+    const newEmail = new EMAIL({
+      email
+    });
+    const savedEmail = await newEmail.save();
+
+    res.status(201).json(savedEmail);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Something went wrong' });
+  }
+});
+
+router.get('/allemails', async (req: Request, res: Response) => {
+  try {
+    const emails = await EMAIL.find();
+    res.status(200).json(emails);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Something went wrong' });
+  }
+});
 
 
 export default router;

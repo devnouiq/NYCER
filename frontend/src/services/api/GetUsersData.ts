@@ -7,3 +7,9 @@ export const getUsersData = async () => {
    const response = await axios.get(`${BASE_URL}/allusersdata`);
    return response.data;
 };
+
+
+export const getEmails = async () => {
+   const response = await axios.get(`${BASE_URL}/allemails`);
+   return response.data;
+}

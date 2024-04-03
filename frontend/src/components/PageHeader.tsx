@@ -18,7 +18,7 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
       setSignUpOverlay,
     });
   const navigate = useNavigate();
-  const adminEmail = import.meta.env.VITE_ADMIN;
+  // const adminEmail = import.meta.env.VITE_ADMIN;
 
   return (
     <nav className="bg-[#694331] px-4 flex flex-col md:flex-row items-center justify-between">
@@ -32,13 +32,11 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
       </div>
 
       <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
-        {currentUser && currentUser.idToken.payload.email === adminEmail && (
-          <button
-            className="bg-[#AF7153] text-white font-bold px-4 py-2 rounded"
-            onClick={() => navigate("/admin")}>
-            Admin
-          </button>
-        )}
+        <button
+          className="bg-[#AF7153] text-white font-bold px-4 py-2 rounded"
+          onClick={() => navigate("/admin")}>
+          Admin
+        </button>
         <button className="text-white" onClick={() => navigate("/products")}>
           Products
         </button>

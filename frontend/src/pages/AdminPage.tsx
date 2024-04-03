@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { Navigate } from "react-router-dom";
 import { Loading } from "../components/Loading";
 import { AccountContext } from "../hooks/Account";
-import { getUsersData } from "../services/api/GetUsersData";
+import { getEmails, getUsersData } from "../services/api/GetUsersData";
 import { UserIcon } from "lucide-react";
 
 interface IdTokenPayload {
@@ -27,6 +27,11 @@ interface UserDataType {
   keywords: Keyword[];
 }
 
+interface EmailsType {
+  _id: string;
+  email: string;
+}
+
 const admin: string = import.meta.env.VITE_ADMIN;
 
 export const AdminPage: React.FC = () => {
@@ -34,6 +39,7 @@ export const AdminPage: React.FC = () => {
   const [currentUser, setCurrentUser] = useState<SessionData | void>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [userData, setUserData] = useState<UserDataType[]>();
+  const [emails, setEmails] = useState<EmailsType[]>();
 
   useEffect(() => {
     const fetchSession = async () => {
@@ -42,6 +48,8 @@ export const AdminPage: React.FC = () => {
         setCurrentUser(session);
         const data = await getUsersData();
         setUserData(data);
+        const allemails = await getEmails();
+        setEmails(allemails);
       } catch (error) {
         console.error("Error fetching session:", error);
       } finally {
@@ -89,7 +97,7 @@ export const AdminPage: React.FC = () => {
         <table className="w-full table-auto">
           <thead className="bg-indigo-100">
             <tr>
-              <th className="px-6 py-3 text-left text-indigo-900">Users</th>
+              {/* <th className="px-6 py-3 text-left text-indigo-900">Users</th> */}
               <th className="px-6 py-3 text-left text-indigo-900">Keywords</th>
               <th className="px-6 py-3 text-left text-indigo-900">
                 Top 3 Keywords
@@ -97,25 +105,79 @@ export const AdminPage: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {userData!.map((user: any) => (
-              <tr key={user._id} className="even:bg-gray-50 hover:bg-gray-100">
-                <td className="flex items-center px-6 py-4 border-b border-gray-200">
-                  {/* Add user avatar or icon */}
-                  <div className="w-8 h-8 rounded-full bg-gray-300 mr-2"></div>
+            {userData &&
+              userData.map((user: any) => (
+                <tr
+                  key={user._id}
+                  className="even:bg-gray-50 hover:bg-gray-100">
+                  {/* <td className="flex items-center px-6 py-4 border-b border-gray-200">
+                  <div className="w-8 h-8 rounded-full bg-gray-300 mr-2 flex items-center justify-center">
+                    {" "}
+                    <UserIcon />
+                  </div>
                   {user.username}
-                </td>
-                <td className="px-6 py-4 border-b border-gray-200">
-                  {user.keywords
-                    .map((keyword: { keyword: string }) => keyword.keyword)
-                    .join(", ")}
-                </td>
-                <td className="px-6 py-4 border-b border-gray-200">
-                  {getTop3Keywords(user.keywords)}
-                </td>
-              </tr>
-            ))}
+                </td> */}
+                  <td className="px-6 py-4 border-b border-gray-200">
+                    {user.keywords
+                      .map((keyword: { keyword: string }) => keyword.keyword)
+                      .join(", ")}
+                  </td>
+                  <td className="px-6 py-4 border-b border-gray-200">
+                    {getTop3Keywords(user.keywords)}
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </table>
+      </div>
+      <div className="grid grid-cols-2 gap-4 mt-10">
+        <div className="overflow-x-auto shadow-md rounded-lg">
+          <table className="w-full table-auto text-center">
+            <caption className="py-2 font-bold text-lg text-indigo-900 bg-indigo-100">
+              WaitList Emails
+            </caption>
+            <tbody>
+              {emails &&
+                emails
+                  .slice(0, Math.ceil(emails.length / 2))
+                  .map((email, index) => (
+                    <tr
+                      key={index}
+                      className={`${
+                        index % 2 === 0 ? "bg-gray-100" : "bg-white"
+                      } hover:bg-gray-200 transition-colors cursor-pointer`}>
+                      <td className="px-4 py-2 border border-gray-300">
+                        {email.email}
+                      </td>
+                    </tr>
+                  ))}
+            </tbody>
+          </table>
+        </div>
+
+        <div className="overflow-x-auto shadow-md rounded-lg">
+          <table className="w-full table-auto text-center">
+            <caption className="py-2 font-bold text-lg text-indigo-900 bg-indigo-100">
+              WaitList Emails
+            </caption>
+            <tbody>
+              {emails &&
+                emails
+                  .slice(Math.ceil(emails.length / 2))
+                  .map((email, index) => (
+                    <tr
+                      key={index}
+                      className={`${
+                        index % 2 === 0 ? "bg-gray-100" : "bg-white"
+                      } hover:bg-gray-200 transition-colors cursor-pointer`}>
+                      <td className="px-4 py-2 border border-gray-300">
+                        {email.email}
+                      </td>
+                    </tr>
+                  ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

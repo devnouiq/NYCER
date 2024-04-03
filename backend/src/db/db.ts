@@ -87,7 +87,18 @@ export const userSchema = new Schema<UserDocument>({
 
 const USER = model<UserDocument>('User', userSchema, "userdata");
 
+interface EmailType{
+  email: string
+}
+
+export const emailSchema = new Schema<EmailType>({
+  email: {type: String, required: true, unique: true}
+})
+
+const EMAIL = model<EmailType>('Email', emailSchema, 'emails')
+
 export {
     PRODUCT,
-    USER
+    USER,
+    EMAIL
 }
