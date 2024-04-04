@@ -14,7 +14,6 @@ export const IngredientsPage: React.FC = () => {
     const fetchIngredients = async () => {
       try {
         const response = await RandomIngredients(page);
-        console.log(response);
         setIngredients(response);
         setLoading(false);
       } catch (error) {

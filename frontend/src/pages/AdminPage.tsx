@@ -15,17 +15,17 @@ interface SessionData {
   };
 }
 
-interface Keyword {
+interface KeywordType {
   keyword: string;
   count: number;
   _id: string;
 }
 
-interface UserDataType {
-  _id: string;
-  user: any;
-  keywords: Keyword[];
-}
+// interface UserDataType {
+//   _id: string;
+//   user: any;
+//   keywords: Keyword[];
+// }
 
 interface EmailsType {
   _id: string;
@@ -38,7 +38,7 @@ export const AdminPage: React.FC = () => {
   const { getSession } = useContext(AccountContext);
   const [currentUser, setCurrentUser] = useState<SessionData | void>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [userData, setUserData] = useState<UserDataType[]>();
+  const [keywordsData, setKeywordsData] = useState<KeywordType[]>();
   const [emails, setEmails] = useState<EmailsType[]>();
 
   useEffect(() => {
@@ -47,7 +47,7 @@ export const AdminPage: React.FC = () => {
         const session = await getSession();
         setCurrentUser(session);
         const data = await getUsersData();
-        setUserData(data);
+        setKeywordsData(data);
         const allemails = await getEmails();
         setEmails(allemails);
       } catch (error) {
@@ -75,13 +75,13 @@ export const AdminPage: React.FC = () => {
     return <Navigate to="/" replace />;
   }
 
-  const getTop3Keywords = (keywords: Keyword[]): string => {
-    return keywords
-      .sort((a, b) => b.count - a.count)
-      .slice(0, 3)
-      .map((keyword) => `${keyword.keyword} (${keyword.count})`)
-      .join(", ");
-  };
+  // const getTop3Keywords = (keywords: KeywordType[]): string => {
+  //   return keywords
+  //     .sort((a, b) => b.count - a.count)
+  //     .slice(0, 3)
+  //     .map((keyword) => `${keyword.keyword} (${keyword.count})`)
+  //     .join(", ");
+  // };
 
   return (
     <div className="max-w-4xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
@@ -89,7 +89,7 @@ export const AdminPage: React.FC = () => {
         <div className="flex items-center justify-center bg-[#AF7153] text-white rounded-lg p-4">
           <UserIcon className="w-6 h-6 mr-2" />
           <p className="text-xl font-semibold">
-            Total Users: {userData!.length}
+            Total Users in the waitlist: {emails!.length}
           </p>
         </div>
       </div>
@@ -97,39 +97,30 @@ export const AdminPage: React.FC = () => {
         <table className="w-full table-auto">
           <thead className="bg-indigo-100">
             <tr>
-              {/* <th className="px-6 py-3 text-left text-indigo-900">Users</th> */}
               <th className="px-6 py-3 text-left text-indigo-900">Keywords</th>
               <th className="px-6 py-3 text-left text-indigo-900">
-                Top 3 Keywords
+                keywords count
               </th>
             </tr>
           </thead>
           <tbody>
-            {userData &&
-              userData.map((user: any) => (
+            {keywordsData &&
+              keywordsData.map((keyword) => (
                 <tr
-                  key={user._id}
+                  key={keyword._id}
                   className="even:bg-gray-50 hover:bg-gray-100">
-                  {/* <td className="flex items-center px-6 py-4 border-b border-gray-200">
-                  <div className="w-8 h-8 rounded-full bg-gray-300 mr-2 flex items-center justify-center">
-                    {" "}
-                    <UserIcon />
-                  </div>
-                  {user.username}
-                </td> */}
                   <td className="px-6 py-4 border-b border-gray-200">
-                    {user.keywords
-                      .map((keyword: { keyword: string }) => keyword.keyword)
-                      .join(", ")}
+                    {keyword.keyword}
                   </td>
                   <td className="px-6 py-4 border-b border-gray-200">
-                    {getTop3Keywords(user.keywords)}
+                    {keyword.count}
                   </td>
                 </tr>
               ))}
           </tbody>
         </table>
       </div>
+
       <div className="grid grid-cols-2 gap-4 mt-10">
         <div className="overflow-x-auto shadow-md rounded-lg">
           <table className="w-full table-auto text-center">

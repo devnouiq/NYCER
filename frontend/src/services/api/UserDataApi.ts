@@ -1,16 +1,14 @@
 import axios, { AxiosResponse } from 'axios';
 
-interface User {
-  username: string;
+interface KeywordType {
   keyword: string;
 }
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
-export const createUser = async (username: string, keyword: string): Promise<User | undefined> => {
+export const createKeyword = async (keyword: string): Promise<KeywordType | undefined> => {
   try {
-    const response: AxiosResponse<User> = await axios.post(`${BASE_URL}/usersdata`, {
-      username,
+    const response: AxiosResponse<KeywordType> = await axios.post(`${BASE_URL}/keywordsdata`, {
       keyword,
     });
 

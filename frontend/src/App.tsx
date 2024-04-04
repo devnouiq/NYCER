@@ -43,7 +43,12 @@ const App = () => {
               element={<SingleProductPage />}
             /> */}
           </Routes>
-          <PageFooter />
+          <PageFooter
+            signInOverlay={toggleSignInOverlay}
+            signUpOverlay={toggleSignUpOverlay}
+            setSignInOverlay={setToggleSignInOverlay}
+            setSignUpOverlay={setToggleSignUpOverlay}
+          />
           {toggleSignInOverlay && (
             <div className="fixed inset-0 bg-gray-800 bg-opacity-50 items-center z-50">
               <SignIn closeModal={setToggleSignInOverlay} />

@@ -1,8 +1,8 @@
-import { useState, useEffect, useContext } from "react";
-import { AccountContext } from "./Account";
+import { useState, useEffect } from "react";
+// import { AccountContext } from "./Account";
 import { ProductType } from "../types/ProductTypes";
 import { searchApi } from "../services/api/SearchApi";
-import { createUser } from "../services/api/UserDataApi";
+import { createKeyword } from "../services/api/UserDataApi";
 
 export const useSearchFieldHooks = (
   openModal: boolean,
@@ -12,22 +12,19 @@ export const useSearchFieldHooks = (
   const [val, setVal] = useState<string>("");
   const [displayedProducts, setDisplayedProducts] = useState<number>(3);
   const [showModal, setShowModal] = useState<number | null>(null);
-  const { getSession } = useContext(AccountContext);
-  const [currentUser, setCurrentUser] = useState<void>();
+  // const { getSession } = useContext(AccountContext);
   const [loading, setLoading] = useState<boolean>(false);
-  const [userAndKeywords, setUserAndKeywords] = useState<{
-    user: any;
+  const [keywords, setKeywords] = useState<{
     keyword: string;
-  }>({ user: null, keyword: "" });
+  }>({ keyword: "" });
+  setOpenModal;
+  openModal;
 
   useEffect(() => {
-    if (userAndKeywords.keyword.length > 0) {
+    if (keywords.keyword.length > 0) {
       const createUserWithKeywords = async () => {
         try {
-          await createUser(
-            userAndKeywords.user.idToken.payload.email.split("@")[0],
-            userAndKeywords.keyword.toLowerCase()
-          );
+          await createKeyword(keywords.keyword.toLowerCase());
         } catch (error) {
           console.error("Error creating user:", error);
         }
@@ -35,41 +32,36 @@ export const useSearchFieldHooks = (
 
       createUserWithKeywords();
     }
-  }, [userAndKeywords.keyword]);
+  }, [keywords.keyword]);
 
-  useEffect(() => {
-    getSession()
-      .then((session) => {
-        setCurrentUser(session);
-      })
-      .catch((err) => {
-        console.error(err);
-        console.log("Please Login !");
-      });
-  }, [openModal]);
+  // useEffect(() => {
+  //   getSession()
+  //     .then((session) => {
+  //       setCurrentUser(session);
+  //     })
+  //     .catch((err) => {
+  //       console.error(err);
+  //       console.log("Please Login !");
+  //     });
+  // }, [openModal]);
 
   const handleLoadMore = () => {
     setDisplayedProducts(displayedProducts + 3);
   };
 
-  // TODO: fix modal display even after login
   const handleSearch = (val: string) => {
-    if (!currentUser) {
-      setOpenModal(true);
-    } else {
-      setLoading(true);
-      setUserAndKeywords({ user: currentUser, keyword: val });
-      searchApi(val)
-        .then((response) => {
-          setSearchProduct(response.data.results);
-        })
-        .catch((error) => {
-          console.error(error);
-        })
-        .finally(() => {
-          setLoading(false);
-        });
-    }
+    setLoading(true);
+    setKeywords({ keyword: val });
+    searchApi(val)
+      .then((response) => {
+        setSearchProduct(response.data.results);
+      })
+      .catch((error) => {
+        console.error(error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {

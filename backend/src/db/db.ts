@@ -70,22 +70,22 @@ interface KeywordType {
   count: number;
 }
 
-interface UserDocument{
-  username: string;
-  keywords: KeywordType[];
-}
+// interface UserDocument{
+//   username: string;
+//   keywords: KeywordType[];
+// }
 
-const keywordSchema = new Schema<KeywordType>({
+export const keywordSchema = new Schema<KeywordType>({
   keyword: { type: String, required: true },
   count: { type: Number, required: true }
 });
 
-export const userSchema = new Schema<UserDocument>({
-  username: { type: String, required: true, unique: true },
-  keywords: [keywordSchema]
-});
+// export const userSchema = new Schema<UserDocument>({
+//   username: { type: String, required: true, unique: true },
+//   keywords: [keywordSchema]
+// });
 
-const USER = model<UserDocument>('User', userSchema, "userdata");
+const KEYWORDS = model<KeywordType>('Keywords', keywordSchema, "keywordsdata");
 
 interface EmailType{
   email: string
@@ -97,8 +97,9 @@ export const emailSchema = new Schema<EmailType>({
 
 const EMAIL = model<EmailType>('Email', emailSchema, 'emails')
 
+
 export {
     PRODUCT,
-    USER,
+    KEYWORDS,
     EMAIL
 }

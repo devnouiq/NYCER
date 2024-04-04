@@ -4,7 +4,7 @@ import axios from "axios";
 const BASE_URL: string = import.meta.env.VITE_BASE_URL;
 
 export const getUsersData = async () => {
-   const response = await axios.get(`${BASE_URL}/allusersdata`);
+   const response = await axios.get(`${BASE_URL}/allkeywordsdata`);
    return response.data;
 };
 

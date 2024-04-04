@@ -10,15 +10,14 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
   setSignInOverlay,
   setSignUpOverlay,
 }) => {
-  const { currentUser, handleSignIn, handleSignUp, handleLogout } =
-    usePageHeaderHooks({
-      signInOverlay,
-      signUpOverlay,
-      setSignInOverlay,
-      setSignUpOverlay,
-    });
+  const { currentUser, handleLogout } = usePageHeaderHooks({
+    signInOverlay,
+    signUpOverlay,
+    setSignInOverlay,
+    setSignUpOverlay,
+  });
   const navigate = useNavigate();
-  // const adminEmail = import.meta.env.VITE_ADMIN;
+  const adminEmail = import.meta.env.VITE_ADMIN;
 
   return (
     <nav className="bg-[#694331] px-4 flex flex-col md:flex-row items-center justify-between">
@@ -26,17 +25,19 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
         <img
           src={logo}
           alt="Logo"
-          className="h-14 md:h-14 pt-2 md:pt-0 md:mr-24 cursor-pointer"
+          className="h-14 md:h-14 pt-2 md:pt-0 cursor-pointer"
           onClick={() => navigate("/")}
         />
       </div>
 
       <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
-        <button
-          className="bg-[#AF7153] text-white font-bold px-4 py-2 rounded"
-          onClick={() => navigate("/admin")}>
-          Admin
-        </button>
+        {currentUser && currentUser.idToken.payload.email === adminEmail && (
+          <button
+            className="bg-[#AF7153] text-white font-bold px-4 py-2 rounded"
+            onClick={() => navigate("/admin")}>
+            Admin
+          </button>
+        )}
         <button className="text-white" onClick={() => navigate("/products")}>
           Products
         </button>
@@ -60,12 +61,12 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
         ) : (
           <>
             <button
-              onClick={handleSignIn}
-              className="bg-[#AF7153] text-white font-bold px-4 py-2 rounded">
-              Log In
-            </button>
-            <button
-              onClick={handleSignUp}
+              onClick={() =>
+                window.scrollTo({
+                  top: document.body.scrollHeight,
+                  behavior: "smooth",
+                })
+              }
               className="bg-[#AF7153] text-white font-bold px-4 py-2 rounded">
               Sign Up
             </button>

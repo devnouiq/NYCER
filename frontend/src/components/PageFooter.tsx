@@ -1,16 +1,32 @@
 import React, { useState } from "react";
-import { Facebook, Instagram, Twitter } from "lucide-react";
+import { Instagram } from "lucide-react";
 import logo from "/favicon.png";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { usePageHeaderHooks } from "../hooks/usePageHeaderHooks";
+import { PageHeaderProps } from "../types/PageHeaderTypes";
 
-export const PageFooter: React.FC = () => {
+export const PageFooter: React.FC<PageHeaderProps> = ({
+  signInOverlay,
+  signUpOverlay,
+  setSignInOverlay,
+  setSignUpOverlay,
+}) => {
+  const { handleSignIn } = usePageHeaderHooks({
+    signInOverlay,
+    signUpOverlay,
+    setSignInOverlay,
+    setSignUpOverlay,
+  });
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [successModalVisible, setSuccessModalVisible] = useState(false);
   const [errorModalVisible, setErrorModalVisible] = useState(false);
+
   const BASE_URL: string = import.meta.env.VITE_BASE_URL;
+
+  const adminEmail = import.meta.env.VITE_ADMIN;
 
   const handleKeyDown = (e: { key: string }) => {
     if (e.key === "Enter") {
@@ -19,6 +35,9 @@ export const PageFooter: React.FC = () => {
   };
 
   const handleJoinWaitlist = async () => {
+    if (adminEmail === email) {
+      handleSignIn();
+    }
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       setError("Please enter a valid email address.");
@@ -54,18 +73,23 @@ export const PageFooter: React.FC = () => {
           <nav className="mb-4">
             <ul className="flex space-x-4">
               <li>
-                <a href="#" className="hover:text-gray-300">
-                  <Facebook />
+                <a
+                  href="https://www.instagram.com/nycer.thebrand/"
+                  className="hover:text-gray-300 ">
+                  <Instagram className="mt-[2px]" />
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-gray-300">
-                  <Instagram />
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-gray-300">
-                  <Twitter />
+                <a
+                  href="https://www.tiktok.com/@nycer.thebrand"
+                  className="hover:text-gray-300">
+                  <svg
+                    fill="#ffffff"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 50 50"
+                    className="pb-1 w-8 h-8">
+                    <path d="M41,4H9C6.243,4,4,6.243,4,9v32c0,2.757,2.243,5,5,5h32c2.757,0,5-2.243,5-5V9C46,6.243,43.757,4,41,4z M37.006,22.323 c-0.227,0.021-0.457,0.035-0.69,0.035c-2.623,0-4.928-1.349-6.269-3.388c0,5.349,0,11.435,0,11.537c0,4.709-3.818,8.527-8.527,8.527 s-8.527-3.818-8.527-8.527s3.818-8.527,8.527-8.527c0.178,0,0.352,0.016,0.527,0.027v4.202c-0.175-0.021-0.347-0.053-0.527-0.053 c-2.404,0-4.352,1.948-4.352,4.352s1.948,4.352,4.352,4.352s4.527-1.894,4.527-4.298c0-0.095,0.042-19.594,0.042-19.594h4.016 c0.378,3.591,3.277,6.425,6.901,6.685V22.323z" />
+                  </svg>
                 </a>
               </li>
             </ul>
@@ -120,6 +144,14 @@ export const PageFooter: React.FC = () => {
         <div className="flex flex-col items-center md:items-end">
           <div className="mb-4">
             <p>&copy; {new Date().getFullYear()} All rights reserved.</p>
+          </div>
+          <div className="mb-4">
+            <p>
+              Contact us at{" "}
+              <a href="mailto:hello@wearenycer.com" className="font-bold">
+                hello@wearenycer.com
+              </a>
+            </p>
           </div>
           <div>
             <a href="#" className="hover:text-gray-300">
